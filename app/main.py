@@ -3,8 +3,13 @@ import pandas as pd
 from datetime import datetime
 import os
 import sys
-import os
+from dotenv import load_dotenv
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from data.fetch_transport import get_transport_data, parse_transport_response
+
+load_dotenv()
 
 st.set_page_config(page_title="Holiday Helper", page_icon="🏞️")
 
@@ -19,6 +24,9 @@ mood = st.selectbox("Como você está se sentindo?", ["Relaxado", "Aventureiro",
 st.success(f"Humor selecionado: **{mood}** 🎯")
 
 # rodar com streamlit run app/main.py
+
+origin = "Lausanne, Switzerland"
+destination = "Lac Léman, Switzerland"
 
 # Garantir que a pasta 'data' existe
 os.makedirs("data", exist_ok=True)
@@ -45,3 +53,13 @@ if sugestoes:
     st.info(f"🌄 Passeio: {sugestoes['passeio']}")
 else:
     st.warning("Nenhuma sugestão disponível para esse humor.")
+
+
+if st.button("Consultar transporte"):
+    with st.spinner("Consultando tempo estimado..."):
+        try:
+            data = get_transport_data(origin, destination)
+            message = parse_transport_response(data)
+            st.success(message)
+        except Exception as e:
+            st.error(f"Erro: {e}")

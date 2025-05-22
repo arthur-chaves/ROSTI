@@ -41,14 +41,6 @@ def get_transport_data(origin: str, destination: str, mode="transit"):
 
     return data
 
-if __name__ == "__main__":
-    # Usando coordenadas genéricas ou nome da cidade para anonimizar
-    ORIGIN = "Lausanne, Switzerland"  # Ou algo como "46.5191,6.6336" (lat,lng)
-    DESTINATION = "Lac Léman, Switzerland"  # Lake Geneva em francês
-
-    data = get_transport_data(ORIGIN, DESTINATION)
-    message = parse_transport_response(data)
-    print(data)
 
 def parse_transport_response(data):
     """
@@ -75,3 +67,12 @@ def parse_transport_response(data):
 
     except (IndexError, KeyError):
         return "Resposta da API está em formato inesperado."
+
+if __name__ == "__main__":
+    # Usando coordenadas genéricas ou nome da cidade para anonimizar
+    ORIGIN = "Lausanne, Switzerland"  # Ou algo como "46.5191,6.6336" (lat,lng)
+    DESTINATION = "Lac Léman, Switzerland"  # Lake Geneva em francês
+
+    data = get_transport_data(ORIGIN, DESTINATION)
+    message = parse_transport_response(data)
+    print(data)
