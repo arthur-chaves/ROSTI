@@ -3,13 +3,13 @@ import pandas as pd
 from datetime import datetime
 import os
 import sys
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from data.fetch_transport import get_transport_data, parse_transport_response
 
-load_dotenv()
+# load_dotenv()
 
 st.set_page_config(page_title="Holiday Helper", page_icon="🏞️")
 
