@@ -6,9 +6,9 @@ import sys
 from utils.db_utils import insert_mood, get_connection
 # from dotenv import load_dotenv
 
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
 
-from data.fetch_transport import get_transport_data, parse_transport_response
+from fetch_transport import get_transport_data, parse_transport_response
 
 # load_dotenv()
 
