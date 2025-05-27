@@ -1,7 +1,7 @@
 import duckdb
 
 def get_connection():
-    return duckdb.connect("data/holiday_helper.db")
+    return duckdb.connect("src/data/holiday_helper.db")
 
 def insert_mood(mood: str):
     con = get_connection()

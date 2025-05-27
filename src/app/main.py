@@ -6,9 +6,9 @@ import sys
 from utils.db_utils import insert_mood, get_connection
 # from dotenv import load_dotenv
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
 
-from fetch_transport import get_transport_data, parse_transport_response # type: ignore
+from shared.fetch_transport import get_transport_data, parse_transport_response
 
 # load_dotenv()
 
@@ -38,7 +38,7 @@ if st.checkbox("Ver histórico de humor"):
     con.close()
     st.dataframe(df)
 
-# rodar com streamlit run app/main.py
+# rodar com $env:PYTHONPATH = "src" depois streamlit run src/app/main.py
 
 origin = "Lausanne, Switzerland"
 destination = "Lac Léman, Switzerland"
@@ -54,9 +54,9 @@ os.makedirs("data", exist_ok=True)
 # }])
 # log_entry.to_csv(log_path, mode='a', header=not os.path.exists(log_path), index=False)
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from utils.recommendation import get_recommendations_by_mood
+from app.utils.recommendation import get_recommendations_by_mood
 
 st.markdown("---")
 st.subheader("Sugestões para o seu dia:")
