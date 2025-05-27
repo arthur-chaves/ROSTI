@@ -3,6 +3,7 @@ import pandas as pd
 from datetime import datetime
 import os
 import sys
+from utils.db_utils import insert_mood, get_connection
 # from dotenv import load_dotenv
 
 # sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -21,7 +22,21 @@ st.markdown("---")
 st.subheader("Escolha seu humor de hoje:")
 mood = st.selectbox("Como você está se sentindo?", ["Relaxado", "Aventureiro", "Caseiro"])
 
+
 st.success(f"Humor selecionado: **{mood}** 🎯")
+
+if st.button("Salvar humor"):
+    insert_mood(mood)
+    st.success(f"Humor '{mood}' salvo com sucesso!")
+
+
+
+
+if st.checkbox("Ver histórico de humor"):
+    con = get_connection()
+    df = con.execute("SELECT * FROM mood_log ORDER BY timestamp DESC").fetchdf()
+    con.close()
+    st.dataframe(df)
 
 # rodar com streamlit run app/main.py
 
@@ -32,12 +47,12 @@ destination = "Lac Léman, Switzerland"
 os.makedirs("data", exist_ok=True)
 
 # Registrar o humor selecionado
-log_path = "data/humor_log.csv"
-log_entry = pd.DataFrame([{
-    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    "humor": mood
-}])
-log_entry.to_csv(log_path, mode='a', header=not os.path.exists(log_path), index=False)
+# log_path = "data/humor_log.csv"
+# log_entry = pd.DataFrame([{
+#     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+#     "humor": mood
+# }])
+# log_entry.to_csv(log_path, mode='a', header=not os.path.exists(log_path), index=False)
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -47,6 +62,8 @@ st.markdown("---")
 st.subheader("Sugestões para o seu dia:")
 
 sugestoes = get_recommendations_by_mood(mood)
+
+
 
 if sugestoes:
     st.info(f"🎬 Filme: {sugestoes['filme']}")
@@ -63,3 +80,7 @@ if st.button("Consultar transporte"):
             st.success(message)
         except Exception as e:
             st.error(f"Erro: {e}")
+
+
+
+
