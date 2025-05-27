@@ -1,6 +1,10 @@
-import os
+
 import requests
 from dotenv import load_dotenv
+import sys
+import os
+
+app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app'))
 
 load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -77,7 +81,7 @@ if __name__ == "__main__":
     message = parse_transport_response(data)
     print(data)
 
-from utils.db_utils import get_connection
+from utils.db_utils import get_connection # type: ignore
 
 def insert_transport(origin, destination, duration_minutes):
     con = get_connection()

@@ -8,7 +8,7 @@ from utils.db_utils import insert_mood, get_connection
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
 
-from fetch_transport import get_transport_data, parse_transport_response
+from fetch_transport import get_transport_data, parse_transport_response # type: ignore
 
 # load_dotenv()
 
