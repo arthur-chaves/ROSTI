@@ -3,7 +3,12 @@ import pandas as pd
 from datetime import datetime
 import os
 import sys
-from utils.db_utils import insert_mood, get_connection
+from app.utils.db_utils import insert_mood, get_connection
+
+
+# rodar com .\.venv\Scripts\Activate e depois streamlit run src/main.py
+
+
 # from dotenv import load_dotenv
 
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
@@ -34,11 +39,11 @@ if st.button("Salvar humor"):
 
 if st.checkbox("Ver histórico de humor"):
     con = get_connection()
+
     df = con.execute("SELECT * FROM mood_log ORDER BY timestamp DESC").fetchdf()
     con.close()
     st.dataframe(df)
 
-# rodar com $env:PYTHONPATH = "src" depois streamlit run src/app/main.py
 
 origin = "Lausanne, Switzerland"
 destination = "Lac Léman, Switzerland"
@@ -62,6 +67,13 @@ st.markdown("---")
 st.subheader("Sugestões para o seu dia:")
 
 sugestoes = get_recommendations_by_mood(mood)
+
+from app.utils.recommendation import get_media_by_mood
+# Exemplo de escolha de humor (pode ser entrada do usuário)
+mood = st.selectbox("Como você está se sentindo?", ["feliz", "triste", "cansado", "animado"])
+
+media = get_media_by_mood(mood)
+st.write(f"Sugestão para você: **{media['title']}** ({media['type']})")
 
 
 
