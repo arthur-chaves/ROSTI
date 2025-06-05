@@ -3,6 +3,7 @@ import random
 from pathlib import Path
 
 
+#deprecated
 
 # def get_recommendations_by_mood(mood: str) -> dict:
 #     if mood == "Relaxado":

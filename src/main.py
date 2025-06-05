@@ -24,15 +24,6 @@ st.write("Seu assistente pessoal de férias na Suíça!")
 
 st.markdown("---")
 
-# st.subheader("Escolha seu humor de hoje:")
-# mood = st.selectbox("Como você está se sentindo?", ["Relaxado", "Aventureiro", "Caseiro"])
-
-
-# st.success(f"Humor selecionado: **{mood}** 🎯")
-
-
-
-
 
 if st.checkbox("Ver histórico de humor"):
     con = get_connection()
@@ -48,22 +39,6 @@ destination = "Lac Léman, Switzerland"
 # Garantir que a pasta 'data' existe
 os.makedirs("data", exist_ok=True)
 
-# Registrar o humor selecionado
-# log_path = "data/humor_log.csv"
-# log_entry = pd.DataFrame([{
-#     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-#     "humor": mood
-# }])
-# log_entry.to_csv(log_path, mode='a', header=not os.path.exists(log_path), index=False)
-
-# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# from app.utils.recommendation import get_recommendations_by_mood
-
-# st.markdown("---")
-# st.subheader("Sugestões para o seu dia:")
-
-# sugestoes = get_recommendations_by_mood(mood)
 
 from app.utils.recommendation import get_media_by_mood
 # Exemplo de escolha de humor (pode ser entrada do usuário)
