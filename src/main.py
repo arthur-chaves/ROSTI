@@ -24,15 +24,12 @@ st.write("Seu assistente pessoal de férias na Suíça!")
 
 st.markdown("---")
 
-st.subheader("Escolha seu humor de hoje:")
-mood = st.selectbox("Como você está se sentindo?", ["Relaxado", "Aventureiro", "Caseiro"])
+# st.subheader("Escolha seu humor de hoje:")
+# mood = st.selectbox("Como você está se sentindo?", ["Relaxado", "Aventureiro", "Caseiro"])
 
 
-st.success(f"Humor selecionado: **{mood}** 🎯")
+# st.success(f"Humor selecionado: **{mood}** 🎯")
 
-if st.button("Salvar humor"):
-    insert_mood(mood)
-    st.success(f"Humor '{mood}' salvo com sucesso!")
 
 
 
@@ -61,27 +58,36 @@ os.makedirs("data", exist_ok=True)
 
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app.utils.recommendation import get_recommendations_by_mood
+# from app.utils.recommendation import get_recommendations_by_mood
 
-st.markdown("---")
-st.subheader("Sugestões para o seu dia:")
+# st.markdown("---")
+# st.subheader("Sugestões para o seu dia:")
 
-sugestoes = get_recommendations_by_mood(mood)
+# sugestoes = get_recommendations_by_mood(mood)
 
 from app.utils.recommendation import get_media_by_mood
 # Exemplo de escolha de humor (pode ser entrada do usuário)
 mood = st.selectbox("Como você está se sentindo?", ["feliz", "triste", "cansado", "animado"])
+
+st.success(f"Humor selecionado: **{mood}** 🎯")
+
+if st.button("Salvar humor"):
+    insert_mood(mood)
+    st.success(f"Humor '{mood}' salvo com sucesso!")
 
 media = get_media_by_mood(mood)
 st.write(f"Sugestão para você: **{media['title']}** ({media['type']})")
 
 
 
-if sugestoes:
-    st.info(f"🎬 Filme: {sugestoes['filme']}")
-    st.info(f"🌄 Passeio: {sugestoes['passeio']}")
+
+if media["type"].lower() == "filme":
+    st.info(f"🎬 Filme: {media['title']}")
+elif media["type"].lower() == "passeio":
+    st.info(f"🌄 Passeio: {media['title']}")
 else:
-    st.warning("Nenhuma sugestão disponível para esse humor.")
+    st.info(f"🎲 Sugestão: {media['title']}")
+
 
 
 if st.button("Consultar transporte"):
