@@ -1,12 +1,12 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
+from airflow.operators.python import PythonOperator 
 from datetime import datetime
 
 def hello_world():
     print("Airflow funcionando")
 
 with DAG(
-    dag_id='hello_world_dag',
+    dag_id='mood_etl_dag_test',
     start_date=datetime(2024, 1, 1),
     schedule='@daily',
     catchup=False

@@ -1,0 +1,10 @@
+{"timestamp":"2025-06-07T17:40:20.430150","level":"info","event":"DAG bundles loaded: dags-folder, example_dags","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager"}
+{"timestamp":"2025-06-07T17:40:20.430816","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/holiday_helper_dag.py","logger":"airflow.models.dagbag.DagBag"}
+{"timestamp":"2025-06-07T17:40:20.464160Z","level":"info","event":"Task instance is in running state","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.464575Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.QUEUED","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.465056Z","level":"info","event":"Current task name:salvar_log","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.465281Z","level":"info","event":"Dag name:holiday_helper_dag","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.465525Z","level":"info","event":"Task instance in success state","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.465725Z","level":"info","event":" Previous state of the Task instance: TaskInstanceState.RUNNING","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.465930Z","level":"info","event":"Task operator:<Task(PythonOperator): salvar_log>","chan":"stdout","logger":"task"}
+{"timestamp":"2025-06-07T17:40:20.448643","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.operators.python.PythonOperator"}
