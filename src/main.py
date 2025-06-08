@@ -27,9 +27,17 @@ st.markdown("---")
 
 if st.checkbox("Ver histórico de humor"):
     con = get_connection()
+    cur = con.cursor()
 
-    df = con.execute("SELECT * FROM mood_log ORDER BY timestamp DESC").fetchdf()
+    cur.execute("SELECT * FROM mood_log ORDER BY timestamp DESC")
+    rows = cur.fetchall()
+    columns = [desc[0] for desc in cur.description]
+    
+    df = pd.DataFrame(rows, columns=columns)
+
+    cur.close()
     con.close()
+    
     st.dataframe(df)
 
 
