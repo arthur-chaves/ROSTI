@@ -6,7 +6,7 @@ from datetime import datetime
 import sys
 import os
 
-sys.path.append('/opt/airflow/dags/modules/')
+sys.path.append('/opt/airflow/dags/src/app/utils')
 # import db_utils
 import recommendation
 # from db_utils import get_latest_mood
@@ -30,7 +30,7 @@ default_args = {
 }
 
 with DAG(
-    'mood_etl_dag',
+    'holiday_helper_dag',
     default_args=default_args,
     schedule='@daily',
     tags=['holiday'],
