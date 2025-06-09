@@ -335,6 +335,19 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-
+  # streamlit:
+  #   build: .
+  #   command: streamlit run app/main.py --server.port 8501 --server.address 0.0.0.0
+  #   volumes:
+  #     - ./:/usr/src/app
+  #   ports:
+  #     - 8501:8501
+  #   environment:
+  #     POSTGRES_HOST: postgres
+  #     POSTGRES_DB: airflow
+  #     POSTGRES_USER: airflow
+  #     POSTGRES_PASSWORD: airflow
+  #   depends_on:
+  #     - postgres
 volumes:
   postgres-db-volume:

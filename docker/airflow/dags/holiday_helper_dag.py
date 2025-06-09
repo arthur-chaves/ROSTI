@@ -1,6 +1,8 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
+import logging
+
 
 
 import sys
@@ -15,10 +17,18 @@ from recommendation import get_media_by_mood
 
 
 def fetch_mood(ti, **kwargs):
+    """Recupera o humor mais recente do db e envia 
+    via XCom para as próximas tasks
+    """
     mood = get_latest_mood()
+    logging.info(f"Último humor registrado: {mood}")
     ti.xcom_push(key='mood', value=mood)
 
 def fetch_media(ti, **kwargs):
+    """
+    Recebe o humor via XCom, busca uma mídia compatível
+    e envia o resultado via XCom.
+    """
      # mood = ti.xcom_pull(key='mood', task_ids='fetch_mood')
     mood = 'animado'  # mood fixo para teste
     media = get_media_by_mood(mood)

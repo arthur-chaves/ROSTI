@@ -1,4 +1,4 @@
 streamlit
 pandas
-duckdb
 requests
+psycopg2-binary
