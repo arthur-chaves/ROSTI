@@ -1,6 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
-
+import os
 
 
 def get_connection():
@@ -11,7 +11,6 @@ def get_connection():
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
     )
-
 
 def insert_mood(mood: str):
     con = get_connection()
