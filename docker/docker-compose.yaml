@@ -347,6 +347,8 @@ services:
       - ../requirements.txt:/usr/streamlit/app/requirements.txt
     ports:
       - 8501:8501
+    env_file:
+      - ../.env
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_DB: airflow
