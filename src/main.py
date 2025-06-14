@@ -83,5 +83,35 @@ if st.button("Consultar transporte"):
             st.error(f"Erro: {e}")
 
 
+from shared.checklist import generate_checklist
+st.subheader("🎒 Checklist sugerido para hoje")
+
+# 🔁 Simulando dados até a integração real com API
+weather_data_mock = {
+    "temp": 26,
+    "weather": "Clear"
+}
+
+mensagem, itens = generate_checklist(weather_data_mock)
+
+st.info(mensagem)
+st.markdown("**Itens recomendados:**")
+for item in itens:
+    st.write(f"• {item}")
+
+from shared.recommend_places import recommend_places
+
+st.subheader("📍 Recomendações de lugares para visitar")
+
+# Mock da condição do clima
+weather_condition_mock = "clear"  # ou "rain", "clouds"
+
+places = recommend_places(weather_condition_mock)
+
+for place in places:
+    st.markdown(f"**{place['name']}** - {place['category']}")
+    st.markdown(f"[Ver rota no Google Maps]({place['route_url']})")
+    st.write("---")
+
 
 
