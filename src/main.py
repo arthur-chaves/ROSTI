@@ -115,3 +115,10 @@ for place in places:
 
 
 
+from shared.lake_utils import build_mock_transport_message
+
+st.title("🏖️ Melhor lugar para nadar hoje")
+
+if st.button("Ver recomendação de hoje"):
+    msg = build_mock_transport_message()
+    st.success(msg)
