@@ -28,3 +28,19 @@ def get_latest_mood():
     con.close()
     return result[0] if result else None
 
+
+def create_weather_table():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS weather_raw (
+            id SERIAL PRIMARY KEY,
+            temperature_celsius REAL,
+            condition TEXT,
+            timestamp TEXT
+        );
+    """)
+    conn.commit()
+    cur.close()
+    conn.close()
+    print("✅ Tabela 'weather_raw' criada com sucesso.")

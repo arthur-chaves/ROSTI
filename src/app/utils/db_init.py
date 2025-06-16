@@ -18,6 +18,14 @@ def create_tables():
                     mood TEXT
                 );
             """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS weather_raw (
+                    id SERIAL PRIMARY KEY,
+                    temperature_celsius REAL,
+                    condition TEXT,
+                    timestamp TEXT
+                );
+            """)
     con.close()
 
 if __name__ == "__main__":

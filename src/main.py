@@ -122,3 +122,14 @@ st.title("🏖️ Melhor lugar para nadar hoje")
 if st.button("Ver recomendação de hoje"):
     msg = build_mock_transport_message()
     st.success(msg)
+
+
+from shared.weather_utils import get_mock_weather
+
+st.title("Holiday Helper - Clima")
+
+weather = get_mock_weather()
+
+st.write(f"Temperatura: {weather['temperature_celsius']}°C")
+st.write(f"Condição: {weather['condition']}")
+st.write(f"Última atualização: {weather['timestamp']}")
