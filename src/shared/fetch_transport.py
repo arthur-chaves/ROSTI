@@ -35,6 +35,7 @@ def get_transport_data(origin: str, destination: str, departure_time="now"):
     }
 
     response = requests.get(url, params=params)
+    print("Google Directions API response:", response.json())  # <<<<< Aqui
     if response.status_code != 200:
         raise Exception(f"Erro na requisição HTTP: {response.status_code}")
 
@@ -49,11 +50,15 @@ from app.utils.db_utils import get_connection
 
 def insert_transport(origin, destination, duration_minutes):
     con = get_connection()
-    con.execute("""
-        INSERT INTO transport_raw (origin, destination, duration_minutes)
-        VALUES (?, ?, ?)
-    """, (origin, destination, duration_minutes))
-    con.close()
+    try:
+        with con:
+            with con.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO transport_raw (origin, destination, duration_minutes)
+                    VALUES (%s, %s, %s)
+                """, (origin, destination, duration_minutes))
+    finally:
+        con.close()
 
 def parse_transport_response(data):
     """
@@ -92,8 +97,9 @@ def parse_transport_response(data):
 
 if __name__ == "__main__":
     ORIGIN = "Lausanne, Switzerland"
-    DESTINATION = "Lac Léman, Switzerland"
+    DESTINATION = "Plage de Vidy-Bourget, Switzerland"
 
     data = get_transport_data(ORIGIN, DESTINATION)
     message = parse_transport_response(data)
     print(message)
+

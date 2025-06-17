@@ -113,8 +113,6 @@ for place in places:
     st.markdown(f"[Ver rota no Google Maps]({place['route_url']})")
     st.write("---")
 
-
-
 from shared.lake_utils import build_mock_transport_message
 
 st.title("🏖️ Melhor lugar para nadar hoje")
@@ -133,3 +131,10 @@ weather = get_mock_weather()
 st.write(f"Temperatura: {weather['temperature_celsius']}°C")
 st.write(f"Condição: {weather['condition']}")
 st.write(f"Última atualização: {weather['timestamp']}")
+
+
+if st.button("Consultar transporte teste"):
+    data = get_transport_data(origin, destination)
+    st.json(data)
+
+
