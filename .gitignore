@@ -1,3 +1,4 @@
 .env
 .vscode
 docker/airflow/logs
+spotify_utils.py

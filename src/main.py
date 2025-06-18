@@ -4,6 +4,8 @@ from datetime import datetime
 import os
 import sys
 from app.utils.db_utils import insert_mood, get_connection
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # rodar com .\.venv\Scripts\Activate e depois streamlit run src/main.py
@@ -71,6 +73,24 @@ elif media["type"].lower() == "passeio":
 else:
     st.info(f"🎲 Sugestão: {media['title']}")
 
+from shared.spotify_utils import get_spotify_token, search_playlist_by_mood
+
+# Depois que usuário escolhe o humor:
+if mood:
+    try:
+        token = get_spotify_token()
+        playlist = search_playlist_by_mood(token, mood)
+        if playlist:
+            st.markdown(f"### Playlist para o humor **{mood}**")
+            if playlist["image_url"]:
+                st.image(playlist["image_url"], width=300)
+            st.markdown(f"[Ouça no Spotify]({playlist['url']})")
+            if playlist["description"]:
+                st.write(playlist["description"])
+        else:
+            st.info("Nenhuma playlist encontrada para esse humor.")
+    except Exception as e:
+        st.error(f"Erro ao buscar playlist no Spotify: {e}")
 
 
 if st.button("Consultar transporte"):
@@ -136,5 +156,28 @@ st.write(f"Última atualização: {weather['timestamp']}")
 if st.button("Consultar transporte teste"):
     data = get_transport_data(origin, destination)
     st.json(data)
+
+
+import streamlit as st
+from shared.airflow_api import get_jwt_token, trigger_dag
+
+DAG_IDS = ["holiday_helper_dag", "mood_etl_dag_test"]
+
+st.subheader("🚀 Executar DAGs do Airflow")
+
+token = None
+try:
+    token = get_jwt_token()
+except Exception as e:
+    st.error(f"Erro ao obter token: {e}")
+
+if token:
+    for dag_id in DAG_IDS:
+        if st.button(f"Executar DAG: {dag_id}", key=f"run_{dag_id}"):
+            try:
+                status_code, text = trigger_dag(dag_id, token)
+                st.success(f"DAG '{dag_id}' executada com sucesso! ({status_code})")
+            except Exception as e:
+                st.error(f"Erro ao executar DAG '{dag_id}': {e}")
 
 
