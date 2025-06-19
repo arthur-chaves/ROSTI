@@ -15,7 +15,7 @@ load_dotenv()
 
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
 
-from shared.fetch_transport import get_transport_data, parse_transport_response
+from shared.fetch_transport import get_transport_data, parse_transport_response, simplify_directions_response, generate_transport_summary
 
 # load_dotenv()
 
@@ -44,7 +44,7 @@ if st.checkbox("Ver histórico de humor"):
 
 
 origin = "Lausanne, Switzerland"
-destination = "Lac Léman, Switzerland"
+destination = "Plage de Vidy-Bourget, Switzerland"
 
 # Garantir que a pasta 'data' existe
 os.makedirs("data", exist_ok=True)
@@ -85,8 +85,6 @@ if mood:
             if playlist["image_url"]:
                 st.image(playlist["image_url"], width=300)
             st.markdown(f"[Ouça no Spotify]({playlist['url']})")
-            if playlist["description"]:
-                st.write(playlist["description"])
         else:
             st.info("Nenhuma playlist encontrada para esse humor.")
     except Exception as e:
@@ -135,11 +133,11 @@ for place in places:
 
 from shared.lake_utils import build_mock_transport_message
 
-st.title("🏖️ Melhor lugar para nadar hoje")
+# st.title("🏖️ Melhor lugar para nadar hoje")
 
-if st.button("Ver recomendação de hoje"):
-    msg = build_mock_transport_message()
-    st.success(msg)
+# if st.button("Ver recomendação de hoje"):
+#     msg = build_mock_transport_message()
+#     st.success(msg)
 
 
 from shared.weather_utils import get_mock_weather
@@ -153,9 +151,13 @@ st.write(f"Condição: {weather['condition']}")
 st.write(f"Última atualização: {weather['timestamp']}")
 
 
-if st.button("Consultar transporte teste"):
-    data = get_transport_data(origin, destination)
-    st.json(data)
+if st.button("Executar DAGs e mostrar resumo do transporte"):
+    try:
+        data = get_transport_data(origin, destination)
+        summary = generate_transport_summary(data)
+        st.success(summary)
+    except Exception as e:
+        st.error(f"Erro ao buscar dados da API: {e}")
 
 
 import streamlit as st
