@@ -356,5 +356,23 @@ services:
       POSTGRES_PASSWORD: airflow
     # depends_on:
     #   - postgres
+  holiday_db:
+    image: postgres:13
+    container_name: holiday_db
+    environment:
+      POSTGRES_USER: holiday
+      POSTGRES_PASSWORD: holiday
+      POSTGRES_DB: holiday_app
+    ports:
+      - "5433:5432"  
+    volumes:
+      - holiday-db-volume:/var/lib/postgresql/data
+    restart: always
+
+
 volumes:
   postgres-db-volume:
+  holiday-db-volume:
+  
+
+  

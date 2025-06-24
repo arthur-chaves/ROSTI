@@ -1,15 +1,17 @@
+from dotenv import load_dotenv
 import psycopg2
-from psycopg2.extras import RealDictCursor
 import os
 
+# Carrega o .env (arquivo padrão)
+load_dotenv()
 
 def get_connection():
     return psycopg2.connect(
-        host=os.getenv("DB_HOST"),
-        port=os.getenv("DB_PORT"),
-        dbname=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("HOLIDAY_HOST"),
+        port=os.getenv("HOLIDAY_PORT"),
+        dbname=os.getenv("HOLIDAY_DB"),
+        user=os.getenv("HOLIDAY_USER"),
+        password=os.getenv("HOLIDAY_PASSWORD"),
     )
 
 def insert_mood(mood: str):
