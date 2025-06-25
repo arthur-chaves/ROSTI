@@ -20,22 +20,49 @@ def get_spotify_token():
     resp.raise_for_status()
     return resp.json()["access_token"]
 
-def search_playlist_by_mood(token, mood):
-    url = "https://api.spotify.com/v1/search"
+# def search_playlist_by_mood(token, mood):
+#     url = "https://api.spotify.com/v1/search"
+#     headers = {"Authorization": f"Bearer {token}"}
+#     params = {
+#         "q": mood,
+#         "type": "playlist",
+#         "limit": 3
+#     }
+#     resp = requests.get(url, headers=headers, params=params)
+#     resp.raise_for_status()
+#     items = resp.json().get("playlists", {}).get("items", [])
+#     if items:
+#         playlist = items[0]
+#         return {
+#             "name": playlist["name"],
+#             "url": playlist["external_urls"]["spotify"],
+#             "image_url": playlist["images"][0]["url"] if playlist["images"] else None
+#         }
+#     return None
+def get_spotify_genres():
+    raw = os.getenv("SPOTIFY_GENRES", "")
+    return [g.strip() for g in raw.split(",") if g.strip()]
+
+def search_playlist_by_mood(token, mood, generos=None):
     headers = {"Authorization": f"Bearer {token}"}
-    params = {
-        "q": mood,
-        "type": "playlist",
-        "limit": 3
-    }
-    resp = requests.get(url, headers=headers, params=params)
-    resp.raise_for_status()
-    items = resp.json().get("playlists", {}).get("items", [])
-    if items:
-        playlist = items[0]
-        return {
-            "name": playlist["name"],
-            "url": playlist["external_urls"]["spotify"],
-            "image_url": playlist["images"][0]["url"] if playlist["images"] else None
-        }
+    base_url = "https://api.spotify.com/v1/search"
+    generos = generos or get_spotify_genres()
+
+    for genero in generos:
+        query = f"{mood} {genero}"
+        params = {"q": query, "type": "playlist", "limit": 3}
+        resp = requests.get(base_url, headers=headers, params=params)
+        if resp.status_code != 200:
+            continue
+
+        items = resp.json().get("playlists", {}).get("items", [])
+        if items:
+            playlist = items[0]
+            return {
+                "name": playlist["name"],
+                "url": playlist["external_urls"]["spotify"],
+                "image_url": playlist["images"][0]["url"] if playlist["images"] else None,
+                "query_usada": query
+            }
+
     return None

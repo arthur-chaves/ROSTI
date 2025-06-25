@@ -3,8 +3,13 @@ from random import uniform
 from .fetch_transport import get_transport_data, parse_transport_response
 from .location_utils import get_user_coordinates
 
+
+def is_pleasant_to_swim(temp_celsius: float) -> bool:
+    # Critério baseado no Lago Léman
+    return 20.0 <= temp_celsius <= 23.0
+
 def get_mock_water_temperature():
-    return round(uniform(19.5, 24.0), 1)  # Temperatura realista de verão
+    return round(uniform(18.0, 24.0), 1)  # Temperatura realista de verão
 
 def get_mock_best_lake_today():
     return {
@@ -22,6 +27,12 @@ def build_mock_transport_message():
     try:
         data = get_transport_data(origin_coords, lake["coords"])
         duration_minutes, _ = parse_transport_response(data)
+
+        swim_message = (
+            "uma ótima temperatura para nadar!"
+            if is_pleasant_to_swim(lake["temp"])
+            else "a temperatura da água está um pouco fria para nadar."
+        )
 
         return (
             f"Hoje, a {lake['name']} em {lake['city']} está com {lake['temp']}°C, "
