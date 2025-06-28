@@ -12,6 +12,13 @@ load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 
 
+def get_swim_spots():
+    conn = get_connection()
+    with conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT name FROM swim_spots;")
+            return [row[0] for row in cur.fetchall()]
+
 def get_transport_data(origin: str, destination: str, departure_time="now"):
     """
     Consulta o trajeto detalhado de transporte público entre origem e destino,
@@ -132,24 +139,30 @@ def load_mock_response(file_path="mock_transport.json"):
 
 
 if __name__ == "__main__":
-    ORIGIN = "Lausanne, Switzerland"
-    DESTINATION = "Plage de Vidy-Bourget, Switzerland"
+    ORIGIN = os.getenv("USER_CITY")
 
     # Você pode trocar para True para testar com mock local
     USE_MOCK = False
 
-    if USE_MOCK:
-        data = load_mock_response()
-    else:
-        # Exemplo de horário fixo: terça-feira às 9h
-        next_tuesday = datetime.now() + timedelta((1 - datetime.now().weekday()) % 7)
-        fixed_time = datetime.combine(next_tuesday, datetime.strptime("09:00", "%H:%M").time())
-        departure_timestamp = int(fixed_time.timestamp())
+    swim_spots = get_swim_spots()
 
-        data = get_transport_data(ORIGIN, DESTINATION, departure_time=departure_timestamp)
+    for spot in swim_spots:
+        try:
+            print(f"\n🏝️ Destino: {spot}")
+            if USE_MOCK:
+                data = load_mock_response()
+            else:
+                # Exemplo: próxima terça-feira às 9h
+                next_tuesday = datetime.now() + timedelta((1 - datetime.now().weekday()) % 7)
+                fixed_time = datetime.combine(next_tuesday, datetime.strptime("09:00", "%H:%M").time())
+                departure_timestamp = int(fixed_time.timestamp())
 
-    message = parse_transport_response(data)
-    print(message)
+                data = get_transport_data(ORIGIN, spot, departure_time=departure_timestamp)
+
+            message = parse_transport_response(data)
+            print(message)
+        except Exception as e:
+            print(f"❌ Erro ao processar {spot}: {e}")
 
 
 def simplify_directions_response(data):
@@ -230,4 +243,5 @@ def generate_transport_summary(data):
 
     except Exception as e:
         return f"Erro ao gerar resumo do trajeto: {e}"
+
 

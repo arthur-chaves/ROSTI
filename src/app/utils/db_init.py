@@ -26,6 +26,15 @@ def create_tables():
                     timestamp TEXT
                 );
             """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS swim_spots (
+                    id SERIAL PRIMARY KEY,
+                    name TEXT,
+                    lake TEXT,
+                    lat FLOAT,
+                    lng FLOAT
+                );
+            """)
     con.close()
 
 if __name__ == "__main__":

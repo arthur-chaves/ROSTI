@@ -48,10 +48,15 @@ def build_mock_transport_message():
         return f"Erro ao buscar tempo de trajeto: {str(e)}"
 
 import requests
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 def get_lake_temperature_today(lake: str, lat: float, lng: float, depth=1.5):
     now = datetime.now(timezone.utc)
+    if now.hour >= 18:
+            target_date = now.date() + timedelta(days=1)
+    else:
+            target_date = now.date()
+
     start_str = now.strftime("%Y%m%d0000")
     end_str = now.strftime("%Y%m%d2359")
 

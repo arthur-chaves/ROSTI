@@ -43,8 +43,8 @@ if st.checkbox("Ver histórico de humor"):
     st.dataframe(df)
 
 
-origin = "Lausanne, Switzerland"
-destination = "Plage de Vidy-Bourget, Switzerland"
+
+
 
 # Garantir que a pasta 'data' existe
 os.makedirs("data", exist_ok=True)
@@ -90,11 +90,23 @@ if mood:
     except Exception as e:
         st.error(f"Erro ao buscar playlist no Spotify: {e}")
 
+origin = os.getenv("USER_CITY")
+from shared.lake_utils import get_all_spots
+
+spots = get_all_spots()
+spot_names = [spot[0] for spot in spots]
+selected_spot_name = st.selectbox("Escolha o ponto de natação:", spot_names)
+
+selected_spot = next(spot for spot in spots if spot[0] == selected_spot_name)
+_, selected_lake, lat, lng = selected_spot
+destination_coords = f"{lat},{lng}"
+
+st.write(f"🧭 Destino selecionado: {selected_spot_name} ({selected_lake})")
 
 if st.button("Consultar transporte"):
     with st.spinner("Consultando tempo estimado..."):
         try:
-            data = get_transport_data(origin, destination)
+            data = get_transport_data(origin, destination_coords)
             message = parse_transport_response(data)
             st.success(message)
         except Exception as e:
@@ -183,3 +195,17 @@ if token:
                 st.error(f"Erro ao executar DAG '{dag_id}': {e}")
 
 
+import streamlit as st
+from shared.lake_utils import get_all_spots, get_lake_temperature_today
+
+st.title("🌊 Verificador de Temperatura dos Lagos")
+
+spots = get_all_spots()
+
+for name, lake, lat, lng in spots:
+    with st.spinner(f"🔍 Verificando {name}..."):
+        temp, status = get_lake_temperature_today(lake, lat, lng)
+        if temp:
+            st.success(f"🏖️ {name} ({lake}) → {temp}°C ({status})")
+        else:
+            st.error(f"⚠️ {name} ({lake}) → Erro: {status}")
