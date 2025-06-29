@@ -2,3 +2,4 @@
 .vscode
 docker/airflow/logs
 scripts_guia.txt
+deprecated

@@ -8,16 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# rodar com .\.venv\Scripts\Activate e depois streamlit run src/main.py
-
-
-# from dotenv import load_dotenv
-
-# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'shared')))
 
 from shared.fetch_transport import get_transport_data, parse_transport_response, simplify_directions_response, generate_transport_summary
-
-# load_dotenv()
 
 st.set_page_config(page_title="Holiday Helper", page_icon="🏞️")
 
@@ -62,9 +54,6 @@ if st.button("Salvar humor"):
 
 media = get_media_by_mood(mood)
 st.write(f"Sugestão para você: **{media['title']}** ({media['type']})")
-
-
-
 
 if media["type"].lower() == "filme":
     st.info(f"🎬 Filme: {media['title']}")
@@ -129,28 +118,9 @@ st.markdown("**Itens recomendados:**")
 for item in itens:
     st.write(f"• {item}")
 
-from shared.recommend_places import recommend_places
 
-st.subheader("📍 Recomendações de lugares para visitar")
-
-# Mock da condição do clima
-weather_condition_mock = "clear"  # ou "rain", "clouds"
-
-places = recommend_places(weather_condition_mock)
-
-for place in places:
-    st.markdown(f"**{place['name']}** - {place['category']}")
-    st.markdown(f"[Ver rota no Google Maps]({place['route_url']})")
-    st.write("---")
 
 from shared.lake_utils import build_mock_transport_message
-
-# st.title("🏖️ Melhor lugar para nadar hoje")
-
-# if st.button("Ver recomendação de hoje"):
-#     msg = build_mock_transport_message()
-#     st.success(msg)
-
 
 from shared.weather_utils import get_mock_weather
 
