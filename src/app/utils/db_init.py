@@ -35,6 +35,17 @@ def create_tables():
                     lng FLOAT
                 );
             """)
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS letterboxd_watchlist (
+                    id SERIAL PRIMARY KEY,
+                    date_added DATE DEFAULT CURRENT_DATE,
+                    name TEXT NOT NULL,
+                    year INT,
+                    uri TEXT,
+                    watched BOOLEAN DEFAULT FALSE,
+                    date_watched DATE
+                );
+            """)
     con.close()
 
 if __name__ == "__main__":

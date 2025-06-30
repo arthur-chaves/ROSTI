@@ -179,3 +179,28 @@ for name, lake, lat, lng in spots:
             st.success(f"🏖️ {name} ({lake}) → {temp}°C ({status})")
         else:
             st.error(f"⚠️ {name} ({lake}) → Erro: {status}")
+    
+
+
+from data.letterboxd_read import get_daily_recommendations, mark_as_watched, get_all_unwatched
+
+st.title("🎬 Recomendações de Hoje")
+
+recs = get_daily_recommendations()
+
+if not recs:
+    st.success("Você já assistiu todos os filmes da sua watchlist! 👏")
+else:
+    # Mostrar filmes
+    for _, name, year, uri in recs:
+        st.markdown(f"- **{name}** ({year}) – [🔗 Link]({uri})")
+
+    # Dropdown
+    options = ["Nenhum"] + get_all_unwatched()
+    selected = st.selectbox("Você assistiu algum dos seus filmes ontem?", options)
+
+    if selected != "Nenhum":
+        if st.button("✅ Marcar como assistido"):
+            mark_as_watched(selected)
+            st.success(f"{selected} marcado como assistido!")
+            st.experimental_rerun()
