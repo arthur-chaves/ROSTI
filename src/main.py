@@ -122,15 +122,15 @@ for item in itens:
 
 from shared.lake_utils import build_mock_transport_message
 
-from shared.weather_utils import get_mock_weather
+# from shared.weather_utils import get_mock_weather
 
-st.title("Holiday Helper - Clima")
+# st.title("Holiday Helper - Clima")
 
-weather = get_mock_weather()
+# weather = get_mock_weather()
 
-st.write(f"Temperatura: {weather['temperature_celsius']}°C")
-st.write(f"Condição: {weather['condition']}")
-st.write(f"Última atualização: {weather['timestamp']}")
+# st.write(f"Temperatura: {weather['temperature_celsius']}°C")
+# st.write(f"Condição: {weather['condition']}")
+# st.write(f"Última atualização: {weather['timestamp']}")
 
 
 if st.button("Executar DAGs e mostrar resumo do transporte"):
@@ -204,3 +204,32 @@ else:
             mark_as_watched(selected)
             st.success(f"{selected} marcado como assistido!")
             st.experimental_rerun()
+
+# from shared.weather_utils import get_current_conditions, get_daily_forecast
+
+# def main():
+#     current = get_current_conditions()
+#     forecast = get_daily_forecast()
+
+#     st.title("🌤️ Clima Atual e Previsão do Dia")
+
+#     st.subheader("Condição Atual")
+#     st.write(f"Temperatura: {current['temperature']} °C")
+#     st.write(f"Descrição: {current['description']}")
+#     st.image(current['icon_url'])
+#     st.write(f"Hora local: {current['current_time']} ({current['time_zone']})")
+
+#     st.subheader(f"Previsão para {forecast['date']} ({forecast['timezone']})")
+#     st.write(f"Máxima: {forecast['max_temp']} °C")
+#     st.write(f"Mínima: {forecast['min_temp']} °C")
+
+#     st.markdown("### Durante o dia")
+#     st.write(forecast['day_desc'])
+#     st.image(forecast['day_icon'])
+
+#     st.markdown("### Durante a noite")
+#     st.write(forecast['night_desc'])
+#     st.image(forecast['night_icon'])
+
+# if __name__ == "__main__":
+#     main()
