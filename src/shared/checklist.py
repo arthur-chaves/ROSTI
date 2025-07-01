@@ -9,7 +9,7 @@ def generate_checklist(weather_data):
         mensagem = "🌧️ Parece que vai chover! Leve algo para se proteger e se entreter."
 
     elif "clear" in condition and temp >= 25:
-        checklist = ["protetor solar", "óculos de sol", "chapéu", "snorkel", "toalha"]
+        checklist = ["protetor solar", "óculos de sol", "chapéu", "snorkel", "toalha", "power bank"]
         mensagem = "☀️ Dia perfeito para nadar ou relaxar ao ar livre. Não esqueça o protetor solar!"
 
     elif "cloud" in condition:

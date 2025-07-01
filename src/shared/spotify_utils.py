@@ -1,4 +1,5 @@
 import requests
+import random
 import base64
 from dotenv import load_dotenv
 import os
@@ -43,26 +44,29 @@ def get_spotify_genres():
     raw = os.getenv("SPOTIFY_GENRES", "")
     return [g.strip() for g in raw.split(",") if g.strip()]
 
-def search_playlist_by_mood(token, mood, generos=None):
+def search_playlists_by_genres(token: str, genres: list[str], limit_per_genre: int = 2):
+    import random
+    url = "https://api.spotify.com/v1/search"
     headers = {"Authorization": f"Bearer {token}"}
-    base_url = "https://api.spotify.com/v1/search"
-    generos = generos or get_spotify_genres()
+    results = []
 
-    for genero in generos:
-        query = f"{mood} {genero}"
-        params = {"q": query, "type": "playlist", "limit": 3}
-        resp = requests.get(base_url, headers=headers, params=params)
-        if resp.status_code != 200:
-            continue
+    for genre in genres:
+        params = {
+            "q": f"{genre} vacation OR {genre} férias playlist",
+            "type": "playlist",
+            "limit": limit_per_genre
+        }
+        resp = requests.get(url, headers=headers, params=params)
+        if resp.status_code == 200:
+            playlists = resp.json().get("playlists", {}).get("items", [])
+            for playlist in playlists:
+                if not playlist or "name" not in playlist or "external_urls" not in playlist:
+                    continue
+                results.append({
+                    "name": playlist["name"],
+                    "url": playlist["external_urls"].get("spotify", "#"),
+                    "image_url": playlist.get("images", [{}])[0].get("url"),
+                    "genre": genre
+                })
 
-        items = resp.json().get("playlists", {}).get("items", [])
-        if items:
-            playlist = items[0]
-            return {
-                "name": playlist["name"],
-                "url": playlist["external_urls"]["spotify"],
-                "image_url": playlist["images"][0]["url"] if playlist["images"] else None,
-                "query_usada": query
-            }
-
-    return None
+    return random.sample(results, min(4, len(results)))

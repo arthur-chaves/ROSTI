@@ -62,22 +62,21 @@ elif media["type"].lower() == "passeio":
 else:
     st.info(f"🎲 Sugestão: {media['title']}")
 
-from shared.spotify_utils import get_spotify_token, search_playlist_by_mood
+from shared.spotify_utils import get_spotify_token, get_spotify_genres, search_playlists_by_genres
 
-# Depois que usuário escolhe o humor:
-if mood:
-    try:
-        token = get_spotify_token()
-        playlist = search_playlist_by_mood(token, mood)
-        if playlist:
-            st.markdown(f"### Playlist para o humor **{mood}**")
-            if playlist["image_url"]:
-                st.image(playlist["image_url"], width=300)
-            st.markdown(f"[Ouça no Spotify]({playlist['url']})")
-        else:
-            st.info("Nenhuma playlist encontrada para esse humor.")
-    except Exception as e:
-        st.error(f"Erro ao buscar playlist no Spotify: {e}")
+token = get_spotify_token()
+genres = get_spotify_genres()
+playlists = search_playlists_by_genres(token, genres)
+
+
+st.title("🎧 Sugestões musicais para hoje")
+
+token = get_spotify_token()
+genres = get_spotify_genres()
+playlists = search_playlists_by_genres(token, genres)
+
+for pl in playlists:
+    st.markdown(f"**{pl['name']}**  \n[Gênero: {pl['genre']}]({pl['url']})")
 
 origin = os.getenv("USER_CITY")
 from shared.lake_utils import get_all_spots
