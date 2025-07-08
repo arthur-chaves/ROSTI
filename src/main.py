@@ -19,49 +19,6 @@ st.write("Seu assistente pessoal de férias na Suíça!")
 st.markdown("---")
 
 
-if st.checkbox("Ver histórico de humor"):
-    con = get_connection()
-    cur = con.cursor()
-
-    cur.execute("SELECT * FROM mood_log ORDER BY timestamp DESC")
-    rows = cur.fetchall()
-    columns = [desc[0] for desc in cur.description]
-    
-    df = pd.DataFrame(rows, columns=columns)
-
-    cur.close()
-    con.close()
-    
-    st.dataframe(df)
-
-
-
-
-
-# Garantir que a pasta 'data' existe
-os.makedirs("data", exist_ok=True)
-
-
-from app.utils.recommendation import get_media_by_mood
-# Exemplo de escolha de humor (pode ser entrada do usuário)
-mood = st.selectbox("Como você está se sentindo?", ["feliz", "triste", "cansado", "animado"])
-
-st.success(f"Humor selecionado: **{mood}** 🎯")
-
-if st.button("Salvar humor"):
-    insert_mood(mood)
-    st.success(f"Humor '{mood}' salvo com sucesso!")
-
-media = get_media_by_mood(mood)
-st.write(f"Sugestão para você: **{media['title']}** ({media['type']})")
-
-if media["type"].lower() == "filme":
-    st.info(f"🎬 Filme: {media['title']}")
-elif media["type"].lower() == "passeio":
-    st.info(f"🌄 Passeio: {media['title']}")
-else:
-    st.info(f"🎲 Sugestão: {media['title']}")
-
 from shared.spotify_utils import get_spotify_token, get_spotify_genres, search_playlists_by_genres
 
 token = get_spotify_token()
@@ -170,14 +127,26 @@ from shared.lake_utils import get_all_spots, get_lake_temperature_today
 st.title("🌊 Verificador de Temperatura dos Lagos")
 
 spots = get_all_spots()
+resultados = []
 
+# Coletar dados com temperatura
 for name, lake, lat, lng in spots:
     with st.spinner(f"🔍 Verificando {name}..."):
         temp, status = get_lake_temperature_today(lake, lat, lng)
-        if temp:
-            st.success(f"🏖️ {name} ({lake}) → {temp}°C ({status})")
-        else:
-            st.error(f"⚠️ {name} ({lake}) → Erro: {status}")
+        resultados.append((name, lake, temp, status))
+
+# Ordenar pela temperatura (None vai pro final)
+resultados_ordenados = sorted(
+    resultados, 
+    key=lambda x: (x[2] is None, -x[2] if x[2] is not None else 0)
+)
+
+# Exibir resultados
+for name, lake, temp, status in resultados_ordenados:
+    if temp is not None:
+        st.success(f"🏖️ {name} ({lake}) → {temp}°C ({status})")
+    else:
+        st.error(f"⚠️ {name} ({lake}) → Erro: {status}")
     
 
 
@@ -204,31 +173,16 @@ else:
             st.success(f"{selected} marcado como assistido!")
             st.experimental_rerun()
 
-# from shared.weather_utils import get_current_conditions, get_daily_forecast
 
-# def main():
-#     current = get_current_conditions()
-#     forecast = get_daily_forecast()
+from shared.wired_today import random_wired_articles_today
 
-#     st.title("🌤️ Clima Atual e Previsão do Dia")
+st.title("📰 Notícias Wired de Hoje")
 
-#     st.subheader("Condição Atual")
-#     st.write(f"Temperatura: {current['temperature']} °C")
-#     st.write(f"Descrição: {current['description']}")
-#     st.image(current['icon_url'])
-#     st.write(f"Hora local: {current['current_time']} ({current['time_zone']})")
+artigos = random_wired_articles_today()
 
-#     st.subheader(f"Previsão para {forecast['date']} ({forecast['timezone']})")
-#     st.write(f"Máxima: {forecast['max_temp']} °C")
-#     st.write(f"Mínima: {forecast['min_temp']} °C")
-
-#     st.markdown("### Durante o dia")
-#     st.write(forecast['day_desc'])
-#     st.image(forecast['day_icon'])
-
-#     st.markdown("### Durante a noite")
-#     st.write(forecast['night_desc'])
-#     st.image(forecast['night_icon'])
-
-# if __name__ == "__main__":
-#     main()
+if artigos:
+    for artigo in artigos:
+        st.markdown(f"### [{artigo['title']}]({artigo['link']})")
+        st.caption(f"🕒 Publicado às {artigo['published']} UTC")
+else:
+    st.info("Nenhum artigo novo da Wired hoje.")
