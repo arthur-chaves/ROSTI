@@ -1,7 +1,7 @@
 
 from random import uniform
-from .fetch_transport import get_transport_data, parse_transport_response
-from .location_utils import get_user_coordinates
+from fetch_transport import get_transport_data, parse_transport_response
+from location_utils import get_user_coordinates
 from app.utils.db_utils import get_connection  # importa do seu módulo
 import psycopg2
 
