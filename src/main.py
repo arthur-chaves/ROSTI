@@ -3,13 +3,20 @@ import pandas as pd
 from datetime import datetime
 import os
 import sys
+import json
 from app.utils.db_utils import insert_mood, get_connection
 from dotenv import load_dotenv
 load_dotenv()
 
+OUTPUT_PATH = "data/output"
 
-
-from shared.fetch_transport import get_transport_data, parse_transport_response, simplify_directions_response, generate_transport_summary
+def load_json(file_name):
+    try:
+        with open(os.path.join(OUTPUT_PATH, file_name), "r") as f:
+            return json.load(f)
+    except Exception as e:
+        st.error(f"Erro ao carregar {file_name}: {e}")
+        return None
 
 st.set_page_config(page_title="Holiday Helper", page_icon="🏞️")
 
@@ -35,109 +42,7 @@ playlists = search_playlists_by_genres(token, genres)
 for pl in playlists:
     st.markdown(f"**{pl['name']}**  \n[Gênero: {pl['genre']}]({pl['url']})")
 
-origin = os.getenv("USER_CITY")
-from shared.lake_utils import get_all_spots
 
-spots = get_all_spots()
-spot_names = [spot[0] for spot in spots]
-selected_spot_name = st.selectbox("Escolha o ponto de natação:", spot_names)
-
-selected_spot = next(spot for spot in spots if spot[0] == selected_spot_name)
-_, selected_lake, lat, lng = selected_spot
-destination_coords = f"{lat},{lng}"
-
-st.write(f"🧭 Destino selecionado: {selected_spot_name} ({selected_lake})")
-
-if st.button("Consultar transporte"):
-    with st.spinner("Consultando tempo estimado..."):
-        try:
-            data = get_transport_data(origin, destination_coords)
-            message = parse_transport_response(data)
-            st.success(message)
-        except Exception as e:
-            st.error(f"Erro: {e}")
-
-
-from shared.checklist import generate_checklist
-st.subheader("🎒 Checklist sugerido para hoje")
-
-# 🔁 Simulando dados até a integração real com API
-weather_data_mock = {
-    "temp": 26,
-    "weather": "Clear"
-}
-
-mensagem, itens = generate_checklist(weather_data_mock)
-
-st.info(mensagem)
-st.markdown("**Itens recomendados:**")
-for item in itens:
-    st.write(f"• {item}")
-
-
-
-from shared.lake_utils import build_mock_transport_message
-
-
-if st.button("Executar DAGs e mostrar resumo do transporte"):
-    try:
-        data = get_transport_data(origin, destination)
-        summary = generate_transport_summary(data)
-        st.success(summary)
-    except Exception as e:
-        st.error(f"Erro ao buscar dados da API: {e}")
-
-
-import streamlit as st
-from shared.airflow_api import get_jwt_token, trigger_dag
-
-DAG_IDS = ["holiday_helper_dag", "mood_etl_dag_test"]
-
-st.subheader("🚀 Executar DAGs do Airflow")
-
-token = None
-try:
-    token = get_jwt_token()
-except Exception as e:
-    st.error(f"Erro ao obter token: {e}")
-
-if token:
-    for dag_id in DAG_IDS:
-        if st.button(f"Executar DAG: {dag_id}", key=f"run_{dag_id}"):
-            try:
-                status_code, text = trigger_dag(dag_id, token)
-                st.success(f"DAG '{dag_id}' executada com sucesso! ({status_code})")
-            except Exception as e:
-                st.error(f"Erro ao executar DAG '{dag_id}': {e}")
-
-
-import streamlit as st
-from shared.lake_utils import get_all_spots, get_lake_temperature_today
-
-st.title("🌊 Verificador de Temperatura dos Lagos")
-
-spots = get_all_spots()
-resultados = []
-
-# Coletar dados com temperatura
-for name, lake, lat, lng in spots:
-    with st.spinner(f"🔍 Verificando {name}..."):
-        temp, status = get_lake_temperature_today(lake, lat, lng)
-        resultados.append((name, lake, temp, status))
-
-# Ordenar pela temperatura (None vai pro final)
-resultados_ordenados = sorted(
-    resultados, 
-    key=lambda x: (x[2] is None, -x[2] if x[2] is not None else 0)
-)
-
-# Exibir resultados
-for name, lake, temp, status in resultados_ordenados:
-    if temp is not None:
-        st.success(f"🏖️ {name} ({lake}) → {temp}°C ({status})")
-    else:
-        st.error(f"⚠️ {name} ({lake}) → Erro: {status}")
-    
 
 
 from data.letterboxd_read import get_daily_recommendations, mark_as_watched, get_all_unwatched
@@ -176,3 +81,70 @@ if artigos:
         st.caption(f"🕒 Publicado às {artigo['published']} UTC")
 else:
     st.info("Nenhum artigo novo da Wired hoje.")
+
+if "show_swim_info" not in st.session_state:
+    st.session_state["show_swim_info"] = False
+
+from shared.fetch_transport import parse_transport_response
+
+weather = load_json("weather.json")
+checklist = load_json("checklist.json")
+lake_temps = load_json("lake_temperatures.json")
+transport = load_json("transport.json")
+
+if st.button("Vamos nadar aonde hoje?"):
+    st.session_state["show_swim_info"] = True
+    
+if st.session_state["show_swim_info"]:
+
+    if weather:
+        st.subheader("🌤️ Clima do dia")
+
+        st.write(f"**Data:** {weather.get('date', 'N/A')} ({weather.get('timezone', '')})")
+        st.write(f"**Máxima:** {weather.get('max_temp', 'N/A')} °C")
+        st.write(f"**Mínima:** {weather.get('min_temp', 'N/A')} °C")
+        st.write(f"**Descrição do dia:** {weather.get('day_desc', 'N/A')}")
+        # st.write(f"**Descrição da noite:** {weather.get('night_desc', 'N/A')}")
+        
+
+
+    if checklist:
+        st.subheader("🎒 Checklist")
+        st.info(checklist.get("mensagem", ""))
+        for item in checklist.get("itens", []):
+            st.write(f"• {item}")
+
+    if lake_temps:
+        st.subheader("🌡️ Temperatura dos lagos")
+        for spot in lake_temps:
+            name = spot.get("name", "Desconhecido")
+            lake = spot.get("lake", "—")
+            temp = spot.get("temp")
+            status = spot.get("status", "Sem status")
+            if temp is not None:
+                st.success(f"{name} ({lake}): {temp}°C – {status}")
+            else:
+                st.error(f"{name} ({lake}): Erro – {status}")
+
+    if transport:
+        st.subheader("🚍 Transporte até pontos de natação")
+
+        # Lista de destinos para o selectbox
+        destinos = [t.get("destination", "Destino desconhecido") for t in transport]
+
+        praia_escolhida = st.selectbox("Selecione a praia para ver o trajeto detalhado:", destinos, key="praia_escolhida")
+
+        # Busca os dados do destino escolhido
+        dados_praia = next((t for t in transport if t.get("destination") == praia_escolhida), None)
+
+        if dados_praia:
+            if "error" in dados_praia:
+                st.error(f"{praia_escolhida}: {dados_praia['error']}")
+            else:
+                dur = dados_praia.get("duration_minutes", "?")
+                st.write(f"Tempo estimado até {praia_escolhida}: {dur} minutos")
+
+                # Chama a função que você já tem para parsear os detalhes do trajeto
+                mensagem_trajeto = dados_praia.get("route_data", "Não foi possível carregar os detalhes.")
+                st.text_area("Detalhes do trajeto", mensagem_trajeto, height=150)
+

@@ -28,16 +28,17 @@ LONGITUDE = float(os.getenv("user_lng"))
 
 with DAG(
     dag_id="lake_weather_transport_dag",
-    start_date=datetime.datetime(2025, 7, 7),
+    start_date=datetime.datetime(2025, 7, 9),
     catchup=False,
-    schedule=None,
+    schedule="0 8 * * *",
     tags=['holiday', 'weather'],
     description="Processa clima, checklist, temperatura dos lagos e transporte",
 ) as dag:
 
     def task_fetch_weather_forecast(**context):
         forecast = get_daily_forecast(GOOGLE_API_KEY, LATITUDE, LONGITUDE)
-        print("DEBUG forecast:", forecast)
+        with open("/opt/airflow/dags/src/data/output/weather.json", "w") as f:
+            json.dump(forecast, f)
         context["ti"].xcom_push(key="forecast_data", value=forecast)
 
     def task_generate_checklist(**context):
@@ -45,10 +46,13 @@ with DAG(
         if forecast_data is None:
             raise ValueError("forecast_data veio como None. Verifique a task anterior.")
 
-        mensagem, checklist = generate_checklist(forecast_data)
-        print("✅ Checklist gerada:")
-        print(mensagem)
-        print(checklist)
+        mensagem, checklist_items = generate_checklist(forecast_data)
+        checklist_output = {
+        "mensagem": mensagem,
+        "itens": checklist_items
+        }
+        with open("/opt/airflow/dags/src/data/output/checklist.json", "w") as f:
+            json.dump(checklist_output, f)
 
 
     def task_fetch_lake_temperatures(**context):
@@ -58,21 +62,32 @@ with DAG(
             temp, status = get_lake_temperature_today(lake, lat, lng)
             results.append({"name": name, "lake": lake, "temp": temp, "status": status})
         context["ti"].xcom_push(key="lake_temperatures", value=results)
+        with open("/opt/airflow/dags/src/data/output/lake_temperatures.json", "w") as f:
+            json.dump(results, f)
 
     def task_fetch_transport_to_all_spots():
         swim_spots = get_swim_spots()
+        all_results=[]
         for spot in swim_spots:
             try:
-                print(f"\n🏝️ Destino: {spot}")
                 data = get_transport_data(USER_CITY, spot)
-                message = parse_transport_response(data)
-                print(message)
-
                 duration = data["routes"][0]["legs"][0]["duration"]["value"] // 60
-                insert_transport(USER_CITY, spot, duration)
-
+                summary = parse_transport_response(data)
+                all_results.append({
+                    "origin": USER_CITY,
+                    "destination": spot,
+                    "duration_minutes": duration,
+                    "route_data": summary
+            })
             except Exception as e:
-                print(f"❌ Erro ao processar {spot}: {e}")
+                all_results.append({
+                    "origin": USER_CITY,
+                    "destination": spot,
+                    "error": str(e)
+            })
+
+        with open("/opt/airflow/dags/src/data/output/transport.json", "w") as f:
+            json.dump(all_results, f, ensure_ascii=False, indent=2)
 
     t1 = PythonOperator(
         task_id="fetch_weather_forecast",
