@@ -1,8 +1,15 @@
+import os
+import datetime
+from dotenv import load_dotenv
 from app.utils.db_utils import get_connection  # importa do seu módulo
 import psycopg2
 import csv
-import datetime
 
+# Carrega as variáveis do .env assim que o módulo for importado
+load_dotenv()
+
+def get_letterboxd_user():
+    return os.getenv("LETTER_USER")
 
 def get_daily_recommendations(limit=4):
     conn = get_connection()

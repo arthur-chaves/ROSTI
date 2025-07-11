@@ -51,4 +51,4 @@ def search_playlists_by_genres(token: str, genres: list[str], limit_per_genre: i
                     "genre": genre
                 })
 
-    return random.sample(results, min(4, len(results)))
+    return random.sample(results, min(5, len(results)))

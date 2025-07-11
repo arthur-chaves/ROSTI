@@ -5,32 +5,32 @@ def generate_checklist(forecast_data):
     night_desc = forecast_data.get("night_desc", "").lower()
 
     checklist = []
-    mensagem = ""
+    message = ""
 
-    # Condição de chuva ou tempestade
+    # Rain or storm condition
     if "rain" in day_desc or "storm" in day_desc:
-        checklist = ["guarda-chuva", "jaqueta impermeável", "livro", "power bank", "meias extras"]
-        mensagem = "🌧️ Parece que vai chover! Leve algo para se proteger e se entreter."
+        checklist = ["umbrella", "rain jacket", "book", "power bank", "extra socks"]
+        message = "🌧️ Looks like it’s going to rain! Bring something to stay dry and entertained."
 
-    # Condição de sol forte e calor
+    # Clear and hot day
     elif "clear" in day_desc and max_temp >= 25:
-        checklist = ["protetor solar", "óculos de sol", "chapéu", "snorkel", "toalha", "garrafa d'água", "power bank", "shopping bag"]
-        mensagem = "☀️ Dia perfeito para nadar ou relaxar ao ar livre. Não esqueça o protetor solar!"
+        checklist = ["sunscreen", "sunglasses", "hat", "snorkel", "towel", "water bottle", "power bank", "shopping bag"]
+        message = "☀️ Perfect day to swim or relax outdoors. Don’t forget your sunscreen!"
 
-    # Condição de tempo nublado
+    # Cloudy weather
     elif "cloud" in day_desc:
-        checklist = ["mochila leve", "tênis confortável", "casaco leve", "livro", "garrafa d'água"]
-        mensagem = "⛅ Dia nublado... Ideal para explorar com tranquilidade."
+        checklist = ["light backpack", "comfortable shoes", "light jacket", "book", "water bottle"]
+        message = "⛅ Cloudy day... Ideal for a calm walk or city exploration."
 
     else:
-        checklist = ["mochila", "garrafa de água", "mapa offline", "snacks"]
-        mensagem = "📦 Prepare-se para o inesperado! Um dia neutro pode surpreender."
+        checklist = ["backpack", "water bottle", "offline map", "snacks"]
+        message = "📦 Be ready for anything! Neutral weather can still surprise you."
 
-    # Adicionais se a noite for fria
+    # Add if night is cold
     if min_temp < 15:
-        checklist.append("agasalho extra")
+        checklist.append("extra sweater")
 
-    # Remove duplicatas se houver
+    # Remove duplicates
     checklist = sorted(set(checklist))
 
-    return mensagem, checklist
+    return message, checklist

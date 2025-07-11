@@ -26,13 +26,16 @@ USER_CITY = os.getenv("USER_CITY")
 LATITUDE = float(os.getenv("user_lat"))
 LONGITUDE = float(os.getenv("user_lng"))
 
+import pendulum
+
+local_tz = pendulum.timezone("Europe/Rome")
 with DAG(
     dag_id="lake_weather_transport_dag",
-    start_date=datetime.datetime(2025, 7, 9),
+    start_date=datetime.datetime(2025, 7, 9, tzinfo=local_tz),
     catchup=False,
     schedule="0 8 * * *",
     tags=['holiday', 'weather'],
-    description="Processa clima, checklist, temperatura dos lagos e transporte",
+    description="Processes weather, checklist, lake water temperature, and transit data"
 ) as dag:
 
     def task_fetch_weather_forecast(**context):

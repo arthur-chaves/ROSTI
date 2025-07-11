@@ -36,4 +36,4 @@ def random_wired_articles_today():
     if not artigos:
         return []
 
-    return random.sample(artigos, k=min(5, len(artigos)))
+    return random.sample(artigos, k=min(3, len(artigos)))

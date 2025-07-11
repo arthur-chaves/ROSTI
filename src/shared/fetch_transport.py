@@ -7,10 +7,22 @@ import json
 from datetime import datetime, timedelta
 from app.utils.db_utils import get_connection
 
-# Carregar variáveis de ambiente
+# Load environment variables
 load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 
+VEHICLE_TYPE_MAP = {
+    "BUS": "bus",
+    "RAIL": "train",
+    "HEAVY_RAIL": "train",
+    "COMMUTER_TRAIN": "train",
+    "SUBWAY": "subway",
+    "TRAM": "tram",
+    "FERRY": "ferry",
+    "CABLE_CAR": "cable car",
+    "GONDOLA_LIFT": "gondola lift",
+    "FUNICULAR": "funicular",
+}
 
 def get_swim_spots():
     conn = get_connection()
@@ -21,24 +33,24 @@ def get_swim_spots():
 
 def get_transport_data(origin: str, destination: str, departure_time="now"):
     """
-    Consulta o trajeto detalhado de transporte público entre origem e destino,
-    com fallback caso o modo ônibus (bus) não encontre resultados.
+    Requests detailed public transit route from origin to destination,
+    with a fallback if 'bus' mode returns no results.
 
     Args:
-        origin (str): endereço ou coordenadas "lat,lng" da origem
-        destination (str): endereço ou coordenadas "lat,lng" do destino
-        departure_time (str ou int): 'now' ou timestamp unix da hora de saída
+        origin (str): address or "lat,lng" coordinates of origin
+        destination (str): address or "lat,lng" coordinates of destination
+        departure_time (str or int): 'now' or unix timestamp of departure time
 
     Returns:
-        dict: Dados da resposta da Directions API
+        dict: Directions API response data
     """
     url = "https://maps.googleapis.com/maps/api/directions/json"
 
     if departure_time == "now":
-        # Substitui 'now' por timestamp real para maior controle
+        # Replace 'now' with current timestamp for more control
         departure_time = int(time.time())
 
-    modes_to_try = ["bus", None]  # tenta com 'bus', depois com todos os transportes
+    modes_to_try = ["bus", None]  # try with 'bus', then with all transit modes
     for transit_mode in modes_to_try:
         params = {
             "origin": origin,
@@ -46,72 +58,74 @@ def get_transport_data(origin: str, destination: str, departure_time="now"):
             "mode": "transit",
             "departure_time": departure_time,
             "key": API_KEY,
-            "language": "pt-BR",
+            "language": "en-US",
             "alternatives": "true"
         }
         if transit_mode:
             params["transit_mode"] = transit_mode
 
         response = requests.get(url, params=params)
-        print(f"[DEBUG] Params usados: {params}")
+        print(f"[DEBUG] Params used: {params}")
         data = response.json()
-        print("[DEBUG] Resposta da API:", data)
+        print("[DEBUG] API response:", data)
 
         if response.status_code != 200:
-            raise Exception(f"Erro na requisição HTTP: {response.status_code}")
+            raise Exception(f"HTTP request error: {response.status_code}")
 
         if data.get("status") == "OK":
             return data
         else:
-            print(f"[AVISO] Tentativa com transit_mode={transit_mode} falhou: {data.get('status')}")
+            print(f"[WARNING] Attempt with transit_mode={transit_mode} failed: {data.get('status')}")
 
-    raise Exception("Nenhuma rota válida encontrada pela Directions API.")
+    raise Exception("No valid route found by the Directions API.")
 
 
 def parse_transport_response(data):
     """
-    Extrai informações detalhadas do trajeto de ônibus (linha, parada e horário).
+    Extracts detailed transit route information (line, stop, time).
 
     Args:
-        data (dict): JSON retornado pela Directions API
+        data (dict): JSON returned by the Directions API
 
     Returns:
-        str: mensagem formatada com as informações da viagem ou erro
+        str: formatted message with trip information or error
     """
     try:
         routes = data.get("routes", [])
         if not routes:
-            return "Nenhuma rota encontrada."
+            return "No routes found."
 
         steps = routes[0].get("legs", [])[0].get("steps", [])
         if not steps:
-            return "Nenhuma etapa encontrada no trajeto."
+            return "No steps found in the route."
 
         for step in steps:
             if step.get("travel_mode") == "TRANSIT":
                 details = step.get("transit_details", {})
-                line = details.get("line", {}).get("short_name", "N/D")
-                departure_stop = details.get("departure_stop", {}).get("name", "N/D")
-                departure_time = details.get("departure_time", {}).get("text", "N/D")
-                arrival_stop = details.get("arrival_stop", {}).get("name", "N/D")
-                arrival_time = details.get("arrival_time", {}).get("text", "N/D")
-                duration = routes[0]["legs"][0].get("duration", {}).get("text", "N/D")
-                distance = routes[0]["legs"][0].get("distance", {}).get("text", "N/D")
+                line = details.get("line", {}).get("short_name", "N/A")
+                departure_stop = details.get("departure_stop", {}).get("name", "N/A")
+                departure_time = details.get("departure_time", {}).get("text", "N/A")
+                arrival_stop = details.get("arrival_stop", {}).get("name", "N/A")
+                arrival_time = details.get("arrival_time", {}).get("text", "N/A")
+                duration = routes[0]["legs"][0].get("duration", {}).get("text", "N/A")
+                distance = routes[0]["legs"][0].get("distance", {}).get("text", "N/A")
 
+                vehicle_raw = details.get("line", {}).get("vehicle", {}).get("type", "")
+                vehicle = VEHICLE_TYPE_MAP.get(vehicle_raw, "public transport")
                 return (
-                    f"Pegue o ônibus {line} na parada '{departure_stop}' às {departure_time}.\n"
-                    f"Você vai chegar na parada '{arrival_stop}' às {arrival_time}.\n"
-                    f"Duração total: {duration} ({distance})."
+                    f"Take the {vehicle} {line} from '{departure_stop}' at {departure_time}.\n"
+                    f"You will arrive at '{arrival_stop}' at {arrival_time}.\n"
+                    f"Total duration: {duration} ({distance})."
                 )
 
-        return "Não foi possível encontrar uma etapa de ônibus no trajeto."
+        return "Could not find a transit step in the route."
     except Exception as e:
-        return f"Erro ao processar os dados de trânsito: {e}"
+        return f"Error processing transit data: {e}"
 
 
 def insert_transport(origin, destination, duration_minutes):
     """
-    Insere os dados de transporte no banco de dados.
+    Inserts transport data into the database.
 
     Args:
         origin (str)
@@ -132,7 +146,7 @@ def insert_transport(origin, destination, duration_minutes):
 
 def load_mock_response(file_path="mock_transport.json"):
     """
-    Carrega um mock de resposta da API para testes locais/offline.
+    Loads a mock API response for local/offline testing.
     """
     with open(file_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -141,18 +155,18 @@ def load_mock_response(file_path="mock_transport.json"):
 if __name__ == "__main__":
     ORIGIN = os.getenv("USER_CITY")
 
-    # Você pode trocar para True para testar com mock local
+    # Set to True to use local mock data for testing
     USE_MOCK = False
 
     swim_spots = get_swim_spots()
 
     for spot in swim_spots:
         try:
-            print(f"\n🏝️ Destino: {spot}")
+            print(f"\n🏝️ Destination: {spot}")
             if USE_MOCK:
                 data = load_mock_response()
             else:
-                # Exemplo: próxima terça-feira às 9h
+                # Example: next Tuesday at 9 AM
                 next_tuesday = datetime.now() + timedelta((1 - datetime.now().weekday()) % 7)
                 fixed_time = datetime.combine(next_tuesday, datetime.strptime("09:00", "%H:%M").time())
                 departure_timestamp = int(fixed_time.timestamp())
@@ -162,7 +176,7 @@ if __name__ == "__main__":
             message = parse_transport_response(data)
             print(message)
         except Exception as e:
-            print(f"❌ Erro ao processar {spot}: {e}")
+            print(f"❌ Error processing {spot}: {e}")
 
 
 def simplify_directions_response(data):
@@ -210,13 +224,14 @@ def simplify_directions_response(data):
 
 def generate_transport_summary(data):
     """
-    Gera uma mensagem simples com a informação essencial do trajeto, só ônibus + caminhada + destino.
+    Generates a simple message with essential route info: transit + walking + destination.
     """
     try:
         leg = data["routes"][0]["legs"][0]
         steps = leg["steps"]
 
-        bus_line = None
+        line_name = None
+        vehicle_type = None
         departure_stop = None
         departure_time = None
         walking_duration = 0
@@ -224,24 +239,24 @@ def generate_transport_summary(data):
         for step in steps:
             if step["travel_mode"] == "TRANSIT":
                 transit = step["transit_details"]
-                bus_line = transit["line"]["short_name"]
+                line_name = transit["line"]["short_name"]
+                vehicle_raw = transit["line"]["vehicle"]["type"]
+                vehicle_type = VEHICLE_TYPE_MAP.get(vehicle_raw, "public transport")
                 departure_stop = transit["departure_stop"]["name"]
                 departure_time = transit["departure_time"]["text"]
             elif step["travel_mode"] == "WALKING":
-                walking_duration += step["duration"]["value"]  # segundos
+                walking_duration += step["duration"]["value"]  # in seconds
 
         walking_minutes = walking_duration // 60
-        destination = leg.get("end_address", "seu destino")
+        destination = leg.get("end_address", "your destination")
 
-        if bus_line and departure_stop and departure_time:
+        if line_name and departure_stop and departure_time:
             return (
-                f"Pegue o ônibus {bus_line} na parada '{departure_stop}' às {departure_time}.\n"
-                f"Depois, caminhe cerca de {walking_minutes} minutos até {destination}."
+                f"Take the {vehicle_type} {line_name} from '{departure_stop}' at {departure_time}.\n"
+                f"Then walk about {walking_minutes} minutes to reach {destination}."
             )
         else:
-            return "Não foi possível identificar uma rota de ônibus no trajeto."
+            return "No valid transit information found in the route."
 
     except Exception as e:
-        return f"Erro ao gerar resumo do trajeto: {e}"
-
-
+        return f"Error while generating route summary: {e}"
