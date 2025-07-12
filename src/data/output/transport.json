@@ -2,56 +2,56 @@
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Vidy",
-    "duration_minutes": 24,
-    "route_data": "Take the bus 25 from 'Renens VD, Gare sud' at 10:56 PM.\nYou will arrive at 'Bois de Vaux' at 11:04 PM.\nTotal duration: 25 mins (5.8 km)."
+    "duration_minutes": 25,
+    "route_data": "Take the bus 25 from 'Renens VD, Gare sud' at 12:59 PM.\nYou will arrive at 'Bois de Vaux' at 1:08 PM.\nTotal duration: 26 mins (5.8 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de la Nymphe",
-    "duration_minutes": 86,
-    "route_data": "Take the public transport IC1 from 'Renens VD' at 10:53 PM.\nYou will arrive at 'Geneva' at 11:25 PM.\nTotal duration: 1 hour 26 mins (65.9 km)."
+    "duration_minutes": 87,
+    "route_data": "Take the public transport IC1 from 'Renens VD' at 12:53 PM.\nYou will arrive at 'Geneva' at 1:25 PM.\nTotal duration: 1 hour 27 mins (66.0 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Bains du Saugy",
-    "duration_minutes": 69,
-    "route_data": "Take the public transport IC1 from 'Renens VD' at 10:53 PM.\nYou will arrive at 'Geneva' at 11:25 PM.\nTotal duration: 1 hour 9 mins (63.5 km)."
+    "duration_minutes": 78,
+    "route_data": "Take the public transport IC1 from 'Renens VD' at 12:53 PM.\nYou will arrive at 'Geneva' at 1:25 PM.\nTotal duration: 1 hour 18 mins (63.5 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Perroy",
     "duration_minutes": 53,
-    "route_data": "Take the train RE33 from 'Renens VD' at 11:05 PM.\nYou will arrive at 'Rolle' at 11:24 PM.\nTotal duration: 54 mins (24.8 km)."
+    "route_data": "Take the train RE33 from 'Renens VD' at 1:05 PM.\nYou will arrive at 'Rolle' at 1:24 PM.\nTotal duration: 54 mins (25.3 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Chillon",
-    "duration_minutes": 51,
-    "route_data": "Take the train RE33 from 'Renens VD' at 10:54 PM.\nYou will arrive at 'Montreux' at 11:20 PM.\nTotal duration: 52 mins (32.7 km)."
+    "duration_minutes": 34,
+    "route_data": "Take the train RE33 from 'Renens VD' at 12:54 PM.\nYou will arrive at 'Veytaux-Chillon' at 1:24 PM.\nTotal duration: 34 mins (31.9 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Préverenges",
-    "duration_minutes": 38,
-    "route_data": "Take the bus 33 from 'Renens VD, Gare sud' at 10:49 PM.\nYou will arrive at 'St Sulpice VD, Venoge nord' at 11:04 PM.\nTotal duration: 38 mins (8.4 km)."
+    "duration_minutes": 42,
+    "route_data": "Take the bus 33 from 'Renens VD, Gare sud' at 12:54 PM.\nYou will arrive at 'St Sulpice VD, Venoge nord' at 1:10 PM.\nTotal duration: 43 mins (8.4 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage du Bouveret",
-    "duration_minutes": 118,
-    "route_data": "Take the train RE33 from 'Renens VD' at 10:54 PM.\nYou will arrive at 'Aigle' at 11:32 PM.\nTotal duration: 1 hour 58 mins (72.7 km)."
+    "duration_minutes": 115,
+    "route_data": "Take the bus 17 from 'Renens VD, Village' at 1:04 PM.\nYou will arrive at 'Vigie' at 1:21 PM.\nTotal duration: 1 hour 55 mins (42.0 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Pointe de sable",
-    "duration_minutes": 70,
-    "route_data": "Take the train R4 from 'Renens VD' at 11:34 PM.\nYou will arrive at 'Le Day' at 12:08 AM.\nTotal duration: 1 hour 10 mins (53.6 km)."
+    "duration_minutes": 72,
+    "route_data": "Take the train R3 from 'Renens VD' at 1:04 PM.\nYou will arrive at 'Vallorbe' at 1:43 PM.\nTotal duration: 1 hour 12 mins (55.0 km)."
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de l`aviron",
     "duration_minutes": 31,
-    "route_data": "Take the train RE33 from 'Renens VD' at 10:54 PM.\nYou will arrive at 'Vevey' at 11:15 PM.\nTotal duration: 31 mins (23.6 km)."
+    "route_data": "Take the train RE33 from 'Renens VD' at 12:54 PM.\nYou will arrive at 'Vevey' at 1:15 PM.\nTotal duration: 31 mins (23.6 km)."
   },
   {
     "origin": "Renens, Switzerland",

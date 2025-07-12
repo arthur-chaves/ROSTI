@@ -47,7 +47,7 @@ with DAG(
     def task_generate_checklist(**context):
         forecast_data = context["ti"].xcom_pull(task_ids="fetch_weather_forecast", key="forecast_data")
         if forecast_data is None:
-            raise ValueError("forecast_data veio como None. Verifique a task anterior.")
+            raise ValueError("Check previous task")
 
         mensagem, checklist_items = generate_checklist(forecast_data)
         checklist_output = {
