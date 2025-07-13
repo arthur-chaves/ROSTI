@@ -2,60 +2,71 @@
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Vidy",
-    "duration_minutes": 25,
-    "route_data": "Take the bus 25 from 'Renens VD, Gare sud' at 12:59 PM.\nYou will arrive at 'Bois de Vaux' at 1:08 PM.\nTotal duration: 26 mins (5.8 km)."
+    "duration_minutes": 26,
+    "route_data": "Take the bus 25 from 'Renens VD, Gare sud' at 1:49 PM.\nYou will arrive at 'Bois de Vaux' at 1:59 PM.\nTotal duration: 27 mins (5.8 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+de+Vidy&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de la Nymphe",
-    "duration_minutes": 87,
-    "route_data": "Take the public transport IC1 from 'Renens VD' at 12:53 PM.\nYou will arrive at 'Geneva' at 1:25 PM.\nTotal duration: 1 hour 27 mins (66.0 km)."
+    "duration_minutes": 83,
+    "route_data": "Take the public transport IC from 'Renens VD' at 1:54 PM.\nYou will arrive at 'Geneva' at 2:29 PM.\nTotal duration: 1 hour 23 mins (65.9 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+de+la+Nymphe&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Bains du Saugy",
-    "duration_minutes": 78,
-    "route_data": "Take the public transport IC1 from 'Renens VD' at 12:53 PM.\nYou will arrive at 'Geneva' at 1:25 PM.\nTotal duration: 1 hour 18 mins (63.5 km)."
+    "duration_minutes": 80,
+    "route_data": "Take the public transport IC from 'Renens VD' at 1:54 PM.\nYou will arrive at 'Geneva' at 2:29 PM.\nTotal duration: 1 hour 20 mins (63.5 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Bains+du+Saugy&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Perroy",
-    "duration_minutes": 53,
-    "route_data": "Take the train RE33 from 'Renens VD' at 1:05 PM.\nYou will arrive at 'Rolle' at 1:24 PM.\nTotal duration: 54 mins (25.3 km)."
+    "duration_minutes": 40,
+    "route_data": "Take the train R8 from 'Renens VD' at 1:39 PM.\nYou will arrive at 'Allaman' at 1:57 PM.\nTotal duration: 40 mins (22.3 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+de+Perroy&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Chillon",
     "duration_minutes": 34,
-    "route_data": "Take the train RE33 from 'Renens VD' at 12:54 PM.\nYou will arrive at 'Veytaux-Chillon' at 1:24 PM.\nTotal duration: 34 mins (31.9 km)."
+    "route_data": "Take the train RE33 from 'Renens VD' at 1:54 PM.\nYou will arrive at 'Veytaux-Chillon' at 2:24 PM.\nTotal duration: 34 mins (31.9 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+de+Chillon&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de Préverenges",
-    "duration_minutes": 42,
-    "route_data": "Take the bus 33 from 'Renens VD, Gare sud' at 12:54 PM.\nYou will arrive at 'St Sulpice VD, Venoge nord' at 1:10 PM.\nTotal duration: 43 mins (8.4 km)."
+    "duration_minutes": 34,
+    "route_data": "Take the bus 33 from 'Renens VD, Gare sud' at 1:52 PM.\nYou will arrive at 'St Sulpice VD, Venoge nord' at 2:08 PM.\nTotal duration: 35 mins (8.4 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+de+Pr%C3%A9verenges&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage du Bouveret",
-    "duration_minutes": 115,
-    "route_data": "Take the bus 17 from 'Renens VD, Village' at 1:04 PM.\nYou will arrive at 'Vigie' at 1:21 PM.\nTotal duration: 1 hour 55 mins (42.0 km)."
+    "duration_minutes": 128,
+    "route_data": "Take the bus 25 from 'Renens VD, Gare sud' at 2:55 PM.\nYou will arrive at 'Délices' at 3:13 PM.\nTotal duration: 2 hours 8 mins (32.0 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+du+Bouveret&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Pointe de sable",
-    "duration_minutes": 72,
-    "route_data": "Take the train R3 from 'Renens VD' at 1:04 PM.\nYou will arrive at 'Vallorbe' at 1:43 PM.\nTotal duration: 1 hour 12 mins (55.0 km)."
+    "duration_minutes": 88,
+    "route_data": "Take the train R1 from 'Renens VD' at 2:16 PM.\nYou will arrive at 'Cossonay-Penthalaz' at 2:25 PM.\nTotal duration: 1 hour 28 mins (48.8 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Pointe+de+sable&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
     "destination": "Plage de l`aviron",
     "duration_minutes": 31,
-    "route_data": "Take the train RE33 from 'Renens VD' at 12:54 PM.\nYou will arrive at 'Vevey' at 1:15 PM.\nTotal duration: 31 mins (23.6 km)."
+    "route_data": "Take the train RE33 from 'Renens VD' at 1:54 PM.\nYou will arrive at 'Vevey' at 2:15 PM.\nTotal duration: 31 mins (23.6 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Plage+de+l%60aviron&travelmode=transit&departure_time=1752406682"
   },
   {
     "origin": "Renens, Switzerland",
-    "destination": "Petite plage",
-    "error": "No valid route found by the Directions API."
+    "destination": "Petite Plage, Pully",
+    "duration_minutes": 33,
+    "route_data": "Take the bus 17 from 'Renens VD, Village' at 1:52 PM.\nYou will arrive at 'Vigie' at 2:08 PM.\nTotal duration: 34 mins (7.5 km).",
+    "maps_url": "https://www.google.com/maps/dir/?api=1&origin=Renens%2C+Switzerland&destination=Petite+Plage%2C+Pully&travelmode=transit&departure_time=1752406682"
   }
 ]

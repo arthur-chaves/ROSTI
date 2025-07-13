@@ -260,3 +260,19 @@ def generate_transport_summary(data):
 
     except Exception as e:
         return f"Error while generating route summary: {e}"
+
+
+import urllib.parse
+
+def generate_maps_link(origin, destination, departure_time=None):
+    base_url = "https://www.google.com/maps/dir/?api=1"
+    params = {
+        "origin": origin,
+        "destination": destination,
+        "travelmode": "transit",
+    }
+    if departure_time:
+        params["departure_time"] = str(departure_time)
+
+    query = "&".join(f"{k}={urllib.parse.quote_plus(v)}" for k, v in params.items())
+    return f"{base_url}&{query}"

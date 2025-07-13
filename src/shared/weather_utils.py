@@ -72,3 +72,7 @@ def get_daily_forecast(api_key, latitude, longitude):
         "night_icon": night_icon,
     }
 
+def generate_maps_url(origin, destination):
+    origin_encoded = origin.replace(" ", "+")
+    destination_encoded = destination.replace(" ", "+")
+    return f"https://www.google.com/maps/dir/?api=1&origin={origin_encoded}&destination={destination_encoded}&travelmode=transit"

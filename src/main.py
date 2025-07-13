@@ -7,7 +7,7 @@ import json
 from dotenv import load_dotenv
 
 from app.utils.db_utils import insert_mood, get_connection
-from shared.spotify_utils import get_spotify_token, get_spotify_genres, search_playlists_by_genres
+from shared.spotify_utils import get_spotify_token, get_latest_episodes_for_all_podcasts
 from data.letterboxd_read import get_daily_recommendations, mark_as_watched, get_all_unwatched, get_letterboxd_user
 from shared.wired_today import random_wired_articles_today
 from shared.fetch_transport import parse_transport_response
@@ -43,12 +43,12 @@ weather = load_json("weather.json")
 checklist = load_json("checklist.json")
 lake_temps = load_json("lake_temperatures.json")
 transport = load_json("transport.json")
+podcasts = load_json("podcasts.json")
 
 # === Session Cache ===
-if "playlists" not in st.session_state:
-    token = get_spotify_token()
-    genres = get_spotify_genres()
-    st.session_state["playlists"] = search_playlists_by_genres(token, genres)
+# if "latest_episodes" not in st.session_state:
+#      with st.spinner("Loading latest podcast episodes..."):
+#         st.session_state["latest_episodes"] = get_latest_episodes_for_all_podcasts(5)
 
 if "movie_recommendations" not in st.session_state:
     st.session_state["movie_recommendations"] = get_daily_recommendations()
@@ -84,10 +84,15 @@ with col1:
         st.markdown(f"**Forecast:** {weather.get('day_desc', 'N/A')}")
 
 with col2:
-    st.subheader("🎧 Music")
-    for pl in st.session_state["playlists"]:
-        st.markdown(f"**{pl['name']}**\n[Genre: {pl['genre']}]({pl['url']})")
+    st.subheader("🎧 Podcasts")
+    episodes = podcasts
 
+    if not episodes:
+        st.success("No podcast episodes found!")
+    else:
+        # Exibir só os 5 primeiros episódios
+        for ep in episodes[:5]:
+            st.markdown(f"- **{ep['podcast']}** – [{ep['episode_name']}]({ep['episode_url']}) ({ep['release_date']})")
 with col3:
     st.subheader("🎬 Movies")
     recs = st.session_state.movie_recommendations
@@ -166,9 +171,13 @@ with col7:
             if "error" in beach_data:
                 st.error(f"{selected_beach}: {beach_data['error']}")
             else:
-                st.markdown(f"**Time:** {beach_data.get('duration_minutes', '?')} min")
-                with st.expander("🗺️ Route"):
-                    st.text(beach_data.get("route_data", "No details."))
+                st.markdown(f"**Estimated Total travel time:** {beach_data.get('duration_minutes', '?')} min")
+
+                maps_url = beach_data.get("maps_url")
+                if maps_url:
+                    st.markdown(f"[🗺️ Open route in Google Maps]({maps_url})", unsafe_allow_html=True)
+
+
 
 # with col8:
 #     # Preencher o container para a segunda linha da coluna 4 (lake temps)

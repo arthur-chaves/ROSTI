@@ -18,7 +18,9 @@ from checklist import generate_checklist
 import lake_utils 
 from lake_utils import get_all_spots, get_lake_temperature_today
 import fetch_transport 
-from fetch_transport import get_swim_spots, get_transport_data, parse_transport_response, insert_transport
+from fetch_transport import get_swim_spots, get_transport_data, parse_transport_response, insert_transport, generate_maps_link
+import spotify_utils
+from spotify_utils import get_latest_episodes_for_all_podcasts
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -35,7 +37,7 @@ with DAG(
     catchup=False,
     schedule="0 8 * * *",
     tags=['holiday', 'weather'],
-    description="Processes weather, checklist, lake water temperature, and transit data"
+    description="Processes weather, checklist, lake water temperature, podcasts and transit data"
 ) as dag:
 
     def task_fetch_weather_forecast(**context):
@@ -71,16 +73,19 @@ with DAG(
     def task_fetch_transport_to_all_spots():
         swim_spots = get_swim_spots()
         all_results=[]
+        departure_time = int(datetime.datetime.now().timestamp())
         for spot in swim_spots:
             try:
                 data = get_transport_data(USER_CITY, spot)
                 duration = data["routes"][0]["legs"][0]["duration"]["value"] // 60
                 summary = parse_transport_response(data)
+                maps_url = generate_maps_link(USER_CITY, spot, departure_time=departure_time)
                 all_results.append({
                     "origin": USER_CITY,
                     "destination": spot,
                     "duration_minutes": duration,
-                    "route_data": summary
+                    "route_data": summary,
+                    "maps_url": maps_url
             })
             except Exception as e:
                 all_results.append({
@@ -92,6 +97,11 @@ with DAG(
         with open("/opt/airflow/dags/src/data/output/transport.json", "w") as f:
             json.dump(all_results, f, ensure_ascii=False, indent=2)
 
+    def task_fetch_podcasts():
+        episodes =get_latest_episodes_for_all_podcasts(10)
+        with open("/opt/airflow/dags/src/data/output/podcasts.json", "w", encoding="utf-8") as f:
+            json.dump(episodes, f, ensure_ascii=False, indent=2)
+    
     t1 = PythonOperator(
         task_id="fetch_weather_forecast",
         python_callable=task_fetch_weather_forecast,
@@ -115,4 +125,9 @@ with DAG(
         python_callable=task_fetch_transport_to_all_spots,
     )
 
-    t1 >> t2 >> t3 >> t4
+    t5 = PythonOperator(
+        task_id="fetch_podcasts",
+        python_callable=task_fetch_podcasts,
+    )
+
+    t1 >> t2 >> t3 >> t4 >> t5
