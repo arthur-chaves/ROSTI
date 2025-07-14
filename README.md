@@ -1,13 +1,12 @@
 # ROSTI  
 **Recommendations for Outdoor Swims, Transport & Ideas**
 
-ROSTI is your friendly Swiss day trip planner, combining real-time weather, lake water temperatures, transport options, and fun entertainment ideas all in one easy-to-use spot.
+You know those vacation mornings when you wake up and have no idea what to do?
+Well, here’s my take as a data engineer :)
 
-Perfect for those sunny summer days when you wonder:
+ROSTI puts together in a Streamlit app real-time weather, lake water temps, transport info, and some entertainment ideas all in one place to help me decide quickly which lake is calling me today and whether the water is ready for a swim or still too chilly, so I can grab my towel and get going. 
 
-“Which lake is calling me today? Is the water ready for a swim or still too chilly?”
-
-ROSTI helps you make the best choice, so you can enjoy the perfect day outdoors without the guesswork.
+Along the way, it keeps me updated with the latest news and podcasts, and even suggests a movie to watch when the day winds down. No stress, just summer vibes. 😎
 
 ---
 
