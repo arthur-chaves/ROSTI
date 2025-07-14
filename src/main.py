@@ -45,10 +45,6 @@ lake_temps = load_json("lake_temperatures.json")
 transport = load_json("transport.json")
 podcasts = load_json("podcasts.json")
 
-# === Session Cache ===
-# if "latest_episodes" not in st.session_state:
-#      with st.spinner("Loading latest podcast episodes..."):
-#         st.session_state["latest_episodes"] = get_latest_episodes_for_all_podcasts(5)
 
 if "movie_recommendations" not in st.session_state:
     st.session_state["movie_recommendations"] = get_daily_recommendations()
@@ -56,7 +52,7 @@ if "movie_recommendations" not in st.session_state:
 if "wired_articles" not in st.session_state:
     st.session_state["wired_articles"] = random_wired_articles_today()
 
-# === ROW 1: Weather | Music | Movies | Lake Temps (tall) ===
+
 col1, col2, col3, col4 = st.columns([1, 1, 1, 1.2])
 
 with col1:
@@ -90,7 +86,7 @@ with col2:
     if not episodes:
         st.success("No podcast episodes found!")
     else:
-        # Exibir só os 5 primeiros episódios
+       
         for ep in episodes[:5]:
             st.markdown(f"- **{ep['podcast']}** – [{ep['episode_name']}]({ep['episode_url']}) ({ep['release_date']})")
 with col3:
@@ -126,7 +122,7 @@ with col3:
         if user:
             st.markdown(f"[🎞️ Full list](https://letterboxd.com/{user})")
 
-# Usar container para lake temps ocupar 2 linhas na coluna 4
+
 with col4:
     st.subheader("🌡️ Lake Water Temperatures")
     if lake_temps:
@@ -141,7 +137,6 @@ with col4:
             temp = spot.get("temp")
             st.markdown(f"**{name} ({lake})**: {temp}°C")
 
-# === ROW 2: Checklist | News | Transport | Lake Temps (continuação) ===
 col5, col6, col7, col8 = st.columns([1, 1, 1, 1.2])
 
 with col5:
@@ -178,18 +173,3 @@ with col7:
                     st.markdown(f"[🗺️ Open route in Google Maps]({maps_url})", unsafe_allow_html=True)
 
 
-
-# with col8:
-#     # Preencher o container para a segunda linha da coluna 4 (lake temps)
-#     st.subheader("🌡️ Lake Water Temperatures")
-#     if lake_temps:
-#         sorted_lakes = sorted(
-#             [lt for lt in lake_temps if lt.get("temp") is not None],
-#             key=lambda x: x.get("temp", -999),
-#             reverse=True
-#         )
-#         for spot in sorted_lakes:
-#             name = spot.get("name", "Unknown")
-#             lake = spot.get("lake", "—")
-#             temp = spot.get("temp")
-#             st.markdown(f"**{name} ({lake})**: {temp}°C")
