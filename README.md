@@ -24,11 +24,7 @@ ROSTI is designed to answer daily questions in summertime:
 
 ### Tools & Frameworks
 
-- **Apache Airflow** 
-- **PostgreSQL**   
-- **Streamlit**  
-- **Docker**   
-- **Python**
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?logo=apache-airflow&logoColor=white) ![Spotify](https://img.shields.io/badge/Spotify-1DB954?logo=spotify&logoColor=white)  ![RSS](https://img.shields.io/badge/RSS-F26522?logo=rss&logoColor=white)
 
 ---
 
@@ -40,9 +36,17 @@ ROSTI is designed to answer daily questions in summertime:
 - Spotify API
 - Wired news (RSS)
 
+---
 
+## ⚠️ Important
 
-## 📂 Project Structure
+Many architectural choices and decisions in this project may not make the most efficient sense on purpose for the sake of practicing and learning.
+
+---
+
+## 📬 Contact
+
+Connect with me on  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-chaves-innecco/)
 
 ---
 
