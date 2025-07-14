@@ -1,5 +1,11 @@
-# ROSTI  
-**Recommendations for Outdoor Swims, Transport & Ideas**
+<p align="center" style="font-size: 2.5em; font-weight: bold;">
+  🏊‍♂️ ROSTI  
+</p>
+
+<p align="center" style="font-size: 1.25em; font-weight: semi-bold; color: #555;">
+  Recommendations for Outdoor Swims, Transport & Ideas  
+</p>
+
 
 You know those vacation mornings when you wake up and have no idea what to do?
 Well, here’s my take as a data engineer :)
