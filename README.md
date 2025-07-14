@@ -39,7 +39,36 @@ Along the way, it keeps me updated with the latest news and podcasts, and even s
 - Spotify API
 - Wired news (RSS)
 
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/arthur-chaves/ROSTI.git
+cd rosti
+```
+
+### Set up environment variables
+
+Create a `.env` file at the root with your credentials, API keys and preferences.  
+
 ---
+
+## Running the Project
+
+Everything runs with Docker Compose. Just run:
+
+```bash
+docker compose up
+```
+
+This will start both:
+
+- 🛰️ the Airflow pipeline (DAG runs daily at 08:00 AM)
+- 🏕️ the Streamlit app at [http://localhost:8501](http://localhost:8501)
+
+---
+
 
 ## Data Pipeline
 
