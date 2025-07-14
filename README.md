@@ -1,12 +1,13 @@
-# RÖSTI  
+# ROSTI  
 **Recommendations for Outdoor Swims, Transport & Ideas**
 
 ROSTI is a smart assistant that helps you plan the perfect Swiss day trip.  
-It combines real-time weather forecasts, lake temperature insights, transport data, and entertainment suggestions — all in one interface.
+It combines real-time weather and lake water temperature forecasts, transport data, and entertainment suggestions — all in one interface.
 
-Built with  **Airflow**, **PostgreSQL**, and **Streamlit**, ROSTI is designed to answer a simple daily question:
 
-> _“Should I go to the lake today?”_
+ROSTI is designed to answer daily questions in summertime:
+
+> _“Which beach should I go today? Is the water too cold over there?”_
 
 ---
 
@@ -21,5 +22,28 @@ Built with  **Airflow**, **PostgreSQL**, and **Streamlit**, ROSTI is designed to
 
 ---
 
+### Tools & Frameworks
+
+- **Apache Airflow** 
+- **PostgreSQL**   
+- **Streamlit**  
+- **Docker**   
+- **Python**
+
+---
+
+### Data Sources
+
+- Google Maps API (weather & transit)  
+- AlpLakes
+- Personal watchlist CSV (Letterboxd export)
+- Spotify API
+- Wired news (RSS)
+
+
+
 ## 📂 Project Structure
 
+---
+
+ROSTI is best served with sunlight and a towel. Have fun!
