@@ -59,12 +59,14 @@ This DAG ensures that all relevant data is fresh and synchronized every day to d
 
 ---
 
-## 📬 Contact
-
-Connect with me on  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-chaves-innecco/)
+📬 Contact - Connect with me on  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-chaves-innecco/)
 
 ---
 
 ROSTI is best served with sunlight and a towel. Have fun!
 
 Please note that many architectural choices and decisions in this project may not make the most efficient sense, intentionally made for the sake of practicing and learning.
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
