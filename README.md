@@ -1,10 +1,6 @@
-<p align="center" style="font-size: 2.5em; font-weight: bold;">
-  🏊‍♂️ ROSTI  
-</p>
+<h1 align="center">🏊‍♂️ ROSTI</h1>
+<p align="center"><strong>Recommendations for Outdoor Swims, Transport & Ideas</strong></p>
 
-<p align="center" style="font-size: 1.25em; font-weight: semi-bold; color: #555;">
-  Recommendations for Outdoor Swims, Transport & Ideas  
-</p>
 
 
 You know those vacation mornings when you wake up and have no idea what to do?
