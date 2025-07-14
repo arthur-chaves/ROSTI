@@ -1,13 +1,13 @@
 # ROSTI  
 **Recommendations for Outdoor Swims, Transport & Ideas**
 
-ROSTI is a smart assistant that helps you plan the perfect Swiss day trip.  
-It combines real-time weather and lake water temperature forecasts, transport data, and entertainment suggestions — all in one interface.
+ROSTI is your friendly Swiss day trip planner, combining real-time weather, lake water temperatures, transport options, and fun entertainment ideas all in one easy-to-use spot.
 
+Perfect for those sunny summer days when you wonder:
 
-ROSTI is designed to answer daily questions in summertime:
+“Which lake is calling me today? Is the water ready for a swim or still too chilly?”
 
-> _“Which beach should I go today? Is the water too cold over there?”_
+ROSTI helps you make the best choice, so you can enjoy the perfect day outdoors without the guesswork.
 
 ---
 
@@ -35,6 +35,24 @@ ROSTI is designed to answer daily questions in summertime:
 - Personal watchlist CSV (Letterboxd export)
 - Spotify API
 - Wired news (RSS)
+
+---
+
+## Data Pipeline
+
+The `dag_main.py` is an Airflow DAG that runs daily at 8:00 AM to orchestrate the data fetching and processing tasks needed by the ROSTI app.
+
+It performs the following steps:
+
+- Fetches daily weather forecast for the user’s location and saves it as JSON.
+- Generates a swim packing checklist based on the weather forecast.
+- Retrieves current lake water temperatures for multiple swim spots.
+- Gathers public transport information and estimated travel times from the user’s city to all swim spots, including route summaries and Google Maps links.
+- Shows the latest episodes from curated podcasts for daily recommendations.
+
+All resulting data files are saved in the `src/data/output/` directory and consumed by the Streamlit app to provide up-to-date, personalized recommendations for outdoor swims, transport, and entertainment.
+
+This DAG ensures that all relevant data is fresh and synchronized every day to deliver an optimal user experience.
 
 ---
 
