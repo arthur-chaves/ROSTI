@@ -14,10 +14,12 @@ Along the way, it keeps me updated with the latest news and podcasts, and even s
 
 ## Features
 
-- Recommends lakes based on weather, temperature and daylight
+- Shows forecasted lake water temperatures for the day
 - Adjusts daily packing checklist depending on forecast
 - Shows public transport options (departure, duration, summary)
-- Suggests movies from your personal watchlist
+- Suggests movies from my personal watchlist
+- Recommends new episodes from my favorite podcasts
+- Displays fresh Wired news to read on the way
 - Built with a real data pipeline using Airflow + PostgreSQL
 - Modular and extensible architecture
 
@@ -33,7 +35,7 @@ Along the way, it keeps me updated with the latest news and podcasts, and even s
 
 - Google Maps API (weather & transit)  
 - AlpLakes
-- Personal watchlist CSV (Letterboxd export)
+- Personal watchlist from Letterboxd
 - Spotify API
 - Wired news (RSS)
 
