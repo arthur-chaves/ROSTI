@@ -38,12 +38,6 @@ ROSTI is designed to answer daily questions in summertime:
 
 ---
 
-## ⚠️ Important
-
-Many architectural choices and decisions in this project may not make the most efficient sense on purpose for the sake of practicing and learning.
-
----
-
 ## 📬 Contact
 
 Connect with me on  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-chaves-innecco/)
@@ -51,3 +45,5 @@ Connect with me on  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?lo
 ---
 
 ROSTI is best served with sunlight and a towel. Have fun!
+
+Please note that many architectural choices and decisions in this project may not make the most efficient sense, intentionally made for the sake of practicing and learning.
