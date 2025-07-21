@@ -16,7 +16,7 @@ load_dotenv()
 
 # === CONFIG ===
 OUTPUT_PATH = "data/output"
-st.set_page_config(page_title="Holiday Helper", page_icon="🏞️", layout="wide")
+st.set_page_config(page_title="ROSTI", page_icon="🏞️", layout="wide")
 
 def load_json(file_name):
     try:
@@ -30,7 +30,7 @@ def load_json(file_name):
 st.markdown(
     """
     <div style='text-align: center'>
-        <h2 style='margin-bottom: 0;'>Holiday Helper 🏞️</h2>
+        <h2 style='margin-bottom: 0;'>ROSTI 🏞️</h2>
         <p style='font-size: 16px; margin-top: 0;'>Your personal vacation assistant in Switzerland!</p>
         <hr style='margin-top: 5px; margin-bottom: 15px;'/>
     </div>
