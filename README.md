@@ -116,11 +116,9 @@ All resulting data files are saved in the `src/data/output/` directory and consu
 
 This DAG ensures that all relevant data is fresh and synchronized every day to deliver an optimal user experience.
 
----
+## Friendly Reminders
 
 📬 Contact - Connect with me on  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/arthur-chaves-innecco/)
-
----
 
 ROSTI is best served with sunlight and a towel. Have fun!
 
