@@ -70,10 +70,10 @@ docker compose up
 
 This will start both:
 
-- 🛰️ the Airflow pipeline (DAG runs daily at 08:00 AM)
-- 🏕️ the Streamlit app at [http://localhost:8501](http://localhost:8501)
+-  the Airflow app at [http://localhost:8080](http://localhost:8080)
+-  the Streamlit app at [http://localhost:8501](http://localhost:8501)
 
-## ✅ Finalizing Setup
+## Finalizing Setup
 
 To make full use of the project, you need to manually load some base data into the database:
 
