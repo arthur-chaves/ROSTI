@@ -4,4 +4,8 @@ docker/airflow/logs
 scripts_guia.txt
 deprecated
 .venv
-src/data/output
+
+lake_temperatures.json
+podcasts.json
+transport.json
+weather.json
