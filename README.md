@@ -126,6 +126,8 @@ ROSTI is best served with sunlight and a towel. Have fun!
 
 Please note that many architectural choices and decisions in this project may not make the most efficient sense, intentionally made for the sake of practicing and learning.
 
+To support the sustainability of third-party and open-source services, please cache API responses whenever possible. This helps avoid unnecessary load and keeps things running smoothly for everyone. :)
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
