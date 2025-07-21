@@ -4,3 +4,4 @@ docker/airflow/logs
 scripts_guia.txt
 deprecated
 .venv
+src/data/output
