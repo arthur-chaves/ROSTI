@@ -50,13 +50,19 @@ cd rosti
 
 ### Set up environment variables
 
-Create a `.env` file at the root with your credentials, API keys and preferences.  
+Create a `.env` file at the root with your credentials, API keys and preferences. All required variables are listed in the `.env.example` file.
 
 ---
 
 ## Running the Project
 
-Everything runs with Docker Compose. Just run:
+Before starting the project, you need to initialize the environment.  
+This sets your local user ID for Airflow to avoid permission issues:
+
+```bash
+echo -e "AIRFLOW_UID=$(id -u)" > .env
+```
+The entire infrastructure runs through Docker Compose. To bring up all services, run:
 
 ```bash
 docker compose up
@@ -67,6 +73,30 @@ This will start both:
 - 🛰️ the Airflow pipeline (DAG runs daily at 08:00 AM)
 - 🏕️ the Streamlit app at [http://localhost:8501](http://localhost:8501)
 
+## ✅ Finalizing Setup
+
+To make full use of the project, you need to manually load some base data into the database:
+
+### 1. Insert your preferred lake swim spots
+
+Either directly in the database, or by editing `db_init.py` with your favorite lakes in Switzerland.
+
+### 2. Add your favorite movies
+
+You can either:
+
+- Import a CSV into the database (e.g., your Letterboxd watchlist), or  
+- Manually insert them into the `letterboxd_watchlist` table.
+
+### 3. Initialize the databases
+
+Run the init script from inside any running Airflow container:
+
+```bash
+docker exec -it <airflow-container-name> bash
+cd dags/src/app/utils
+python db_init.py
+```
 ---
 
 
