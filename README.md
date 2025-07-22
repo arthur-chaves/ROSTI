@@ -90,7 +90,7 @@ You can either:
 
 ### 3. Initialize the databases
 
-Run the init script from inside any running Airflow container:
+You can run the init script from inside any running Airflow container:
 
 ```bash
 docker exec -it <airflow-container-name> bash
